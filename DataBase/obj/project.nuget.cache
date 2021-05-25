@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3QeXkPWFeLQHLEMugyWH3dY0GrBrJ7LNVzNqorUHC6OSKTxcmNM7fZ0ckE2JQOQae+T68MMIcLf5xT6pA0a6ow==",
+  "dgSpecHash": "A7riloRrIg+5QzRIvi1tXYLWqqtI09xacQ2YanV2XMPk+WasTS7pZi23TL/yvsurIrXQVw3jXlwy6tqZciP85A==",
   "success": true,
-  "projectFilePath": "D:\\.dotastat\\BD\\ClassLibrary1\\DataBase\\DataBase.csproj",
+  "projectFilePath": "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\remi0\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\remi0\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

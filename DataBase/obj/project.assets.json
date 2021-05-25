@@ -5803,11 +5803,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\.dotastat\\BD\\ClassLibrary1\\DataBase\\DataBase.csproj",
+      "projectUniqueName": "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj",
       "projectName": "DataBase",
-      "projectPath": "D:\\.dotastat\\BD\\ClassLibrary1\\DataBase\\DataBase.csproj",
+      "projectPath": "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj",
       "packagesPath": "C:\\Users\\remi0\\.nuget\\packages\\",
-      "outputPath": "D:\\.dotastat\\BD\\ClassLibrary1\\DataBase\\obj\\",
+      "outputPath": "D:\\1.NET\\CDost\\DataBase\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\remi0\\AppData\\Roaming\\NuGet\\NuGet.Config",

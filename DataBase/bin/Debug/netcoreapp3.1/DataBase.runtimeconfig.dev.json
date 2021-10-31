@@ -2,7 +2,8 @@
   "runtimeOptions": {
     "additionalProbingPaths": [
       "C:\\Users\\remi0\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\remi0\\.nuget\\packages"
+      "C:\\Users\\remi0\\.nuget\\packages",
+      "D:\\DevExpress\\Components\\Offline Packages"
     ]
   }
 }

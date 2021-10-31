@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj": {}
+    "D:\\.DotaStat\\DataBase\\DataBase.csproj": {}
   },
   "projects": {
-    "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj": {
+    "D:\\.DotaStat\\DataBase\\DataBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj",
+        "projectUniqueName": "D:\\.DotaStat\\DataBase\\DataBase.csproj",
         "projectName": "DataBase",
-        "projectPath": "D:\\1.NET\\CDost\\DataBase\\DataBase.csproj",
+        "projectPath": "D:\\.DotaStat\\DataBase\\DataBase.csproj",
         "packagesPath": "C:\\Users\\remi0\\.nuget\\packages\\",
-        "outputPath": "D:\\1.NET\\CDost\\DataBase\\obj\\",
+        "outputPath": "D:\\.DotaStat\\DataBase\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\DevExpress\\Components\\Offline Packages"
+        ],
         "configFilePaths": [
           "C:\\Users\\remi0\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.1.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,9 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "D:\\DevExpress\\Components\\System\\Components\\Packages": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/MuwxLeVedz3SOf253r2azAMnO1e5te98JODZNNQlNfGsbpMjGr/api": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -53,6 +59,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.6, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
@@ -70,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }

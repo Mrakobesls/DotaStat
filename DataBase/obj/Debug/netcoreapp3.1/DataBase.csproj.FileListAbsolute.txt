@@ -22,3 +22,15 @@ D:\.dotastat\BD\ClassLibrary1\DataBase\obj\Debug\netcoreapp3.1\DataBase.csproj.C
 D:\.dotastat\BD\ClassLibrary1\DataBase\obj\Debug\netcoreapp3.1\DataBase.dll
 D:\.dotastat\BD\ClassLibrary1\DataBase\obj\Debug\netcoreapp3.1\DataBase.pdb
 D:\.dotastat\BD\ClassLibrary1\DataBase\obj\Debug\netcoreapp3.1\DataBase.genruntimeconfig.cache
+D:\.DotaStat\DataBase\bin\Debug\netcoreapp3.1\DataBase.deps.json
+D:\.DotaStat\DataBase\bin\Debug\netcoreapp3.1\DataBase.runtimeconfig.json
+D:\.DotaStat\DataBase\bin\Debug\netcoreapp3.1\DataBase.runtimeconfig.dev.json
+D:\.DotaStat\DataBase\bin\Debug\netcoreapp3.1\DataBase.dll
+D:\.DotaStat\DataBase\bin\Debug\netcoreapp3.1\DataBase.pdb
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.csproj.AssemblyReference.cache
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.AssemblyInfoInputs.cache
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.AssemblyInfo.cs
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.csproj.CoreCompileInputs.cache
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.dll
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.pdb
+D:\.DotaStat\DataBase\obj\Debug\netcoreapp3.1\DataBase.genruntimeconfig.cache

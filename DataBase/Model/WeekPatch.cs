@@ -2,15 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataBase.Model
+namespace DotaStat.Data.EntityFramework.Model
 {
     public class WeekPatch 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public virtual ICollection<WeeklyHeroWinRate> WeeklyHeroWinRates { get; set; }
-        public virtual ICollection<LastWeekHeroWinRate> LastWeekHeroWinRates { get; set; }
+        public virtual ICollection<WeeklyWinrate> WeeklyHeroWinRates { get; set; }
+        public virtual ICollection<CurrentWinrateAlly> LastWeekHeroWinRates { get; set; }
         public int WeekId { get; set; }
         public string Patch { get; set; }
     }

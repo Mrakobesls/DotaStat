@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataBase\DotaStat.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\DB UnitOfWork\DB UnitOfWork.csproj" />
+    <ProjectReference Include="..\DotaStat.Business.DataExtractor\DotaStat.Business.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

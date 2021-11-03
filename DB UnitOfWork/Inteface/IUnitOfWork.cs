@@ -8,12 +8,12 @@ namespace DB_UnitOfWork.Inteface
     {
         public CurrentWinrateAllyRepository HeroAllyWRs { get; }
         public CurrentWinrateEnemyRepository HeroEnemyWRs { get; }
-        public GenericRepository<Hero> Heroes { get; }
+        public HeroRepository Heroes { get; }
         public GenericRepository<Item> Items { get; }
         public UserRepository Users { get; }
         public GenericRepository<UserRole> UserRoles { get; }
         public GenericRepository<WeeklyWinrate> WeeklyWRs { get; }
-        public GenericRepository<WeekPatch> WeekPatchs { get; }
+        public WeekPatchesRepository WeekPatches { get; }
         void SaveChanges();
     }
 }

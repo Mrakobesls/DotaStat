@@ -1,0 +1,16 @@
+{
+  "name": "chart.css",
+  "version": "0.1.1",
+  "description": "Open source CSS framework for data visualization.",
+  "author": "Rami Yushuvaev",
+  "homepage": "https://ChartsCSS.org/",
+  "license": "MIT",
+  "main": "chart.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChartsCSS/chart.css.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChartsCSS/chart.css/issues"
+  }
+}

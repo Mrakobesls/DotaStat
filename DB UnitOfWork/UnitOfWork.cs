@@ -1,7 +1,6 @@
-﻿using DataBase;
-using DataBase.Model;
-using DB_UnitOfWork.Inteface;
+﻿using DataBase.Model;
 using DB_Repositories;
+using DB_UnitOfWork.Inteface;
 using DotaStat.Data.EntityFramework;
 using DotaStat.Data.EntityFramework.Model;
 
@@ -17,8 +16,8 @@ namespace DB_UnitOfWork
         private CurrentWinrateEnemyRepository _heroEnemyWRs;
         public CurrentWinrateEnemyRepository HeroEnemyWRs => _heroEnemyWRs ??= new CurrentWinrateEnemyRepository(_context);
 
-        private GenericRepository<Hero> _heroes;
-        public GenericRepository<Hero> Heroes => _heroes ??= new GenericRepository<Hero>(_context);
+        private HeroRepository _heroes;
+        public HeroRepository Heroes => _heroes ??= new HeroRepository(_context);
 
         private GenericRepository<Item> _items;
         public GenericRepository<Item> Items => _items ??= new GenericRepository<Item>(_context);
@@ -32,8 +31,8 @@ namespace DB_UnitOfWork
         private GenericRepository<WeeklyWinrate> _weeklyWRs;
         public GenericRepository<WeeklyWinrate> WeeklyWRs => _weeklyWRs ??= new GenericRepository<WeeklyWinrate>(_context);
 
-        private GenericRepository<WeekPatch> _weekPatchs;
-        public GenericRepository<WeekPatch> WeekPatchs => _weekPatchs ??= new GenericRepository<WeekPatch>(_context);
+        private WeekPatchesRepository _weekPatchs;
+        public WeekPatchesRepository WeekPatches => _weekPatchs ??= new WeekPatchesRepository(_context);
 
         public UnitOfWork(DotaStatDbContext context)
         {

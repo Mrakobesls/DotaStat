@@ -14,9 +14,9 @@ namespace DB_Repositories
         {
             _context = (DotaStatDbContext)context;
         }
-        public void Create(T newEnt)
+        public void Create(T newEntity)
         {
-            _context.Add(newEnt);
+            _context.Add(newEntity);
         }
         public T Read(params int[] id)
         {

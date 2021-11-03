@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataBase\DotaStat.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\DB Repositories\DB Repositories.csproj" />
   </ItemGroup>
 

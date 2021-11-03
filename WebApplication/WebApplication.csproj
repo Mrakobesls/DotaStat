@@ -10,11 +10,11 @@
 
   <ItemGroup>
     <Folder Include="ViewModel\Account\" />
+    <Folder Include="ViewModel\ChartJs\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataBase\DotaStat.Data.EntityFramework.csproj" />
-    <ProjectReference Include="..\Services\DotaStat.Business.csproj" />
+    <ProjectReference Include="..\DotaStat.Data.EntityFramework\DotaStat.Data.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

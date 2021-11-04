@@ -43,5 +43,10 @@ namespace DB_UnitOfWork
         {
             _context.SaveChanges();
         }
+
+        public void DetachAllEntities()
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 }

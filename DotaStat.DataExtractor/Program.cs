@@ -22,13 +22,13 @@ namespace DotaStat.DataExtractor
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddSingleton<DotaStatDbContext>();
-                    services.AddSingleton<IUnitOfWork, UnitOfWork>();
-                    services.AddSingleton<CurrentWinrateAllyRepository>();
-                    services.AddSingleton<CurrentWinrateEnemyRepository>();
-                    services.AddSingleton<IHeroStatisticsService, HeroStatisticsService>();
-                    services.AddSingleton<IWeekPatchService, WeekPatchService>();
-                    services.AddSingleton<IHeroService, HeroService>();
+                    services.AddScoped<DotaStatDbContext>();
+                    services.AddScoped<IUnitOfWork, UnitOfWork>();
+                    services.AddScoped<CurrentWinrateAllyRepository>();
+                    services.AddScoped<CurrentWinrateEnemyRepository>();
+                    services.AddScoped<IHeroStatisticsService, HeroStatisticsService>();
+                    services.AddScoped<IWeekPatchService, WeekPatchService>();
+                    services.AddScoped<IHeroService, HeroService>();
                     services.AddHostedService<Worker>();
 
                     services.AddQuartz(q =>

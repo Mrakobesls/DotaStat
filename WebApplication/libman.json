@@ -3,13 +3,8 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "Chart.js@3.6.0",
-      "destination": "wwwroot/js/Chart.js/"
-    },
-    {
-      "provider": "jsdelivr",
-      "library": "chart.css@0.1.1",
-      "destination": "wwwroot/lib/chart.css/"
+      "library": "canvasjs@1.7.0",
+      "destination": "wwwroot/lib/canvasjs/"
     }
   ]
 }

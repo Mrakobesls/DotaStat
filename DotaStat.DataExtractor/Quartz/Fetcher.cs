@@ -4,6 +4,8 @@ using DotaStat.Business.Interfaces.Types;
 using DotaStat.SteamPoweredApiProvider;
 using Quartz;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotaStat.DataExtractor.Quartz
@@ -11,10 +13,12 @@ namespace DotaStat.DataExtractor.Quartz
     class Fetcher : IJob
     {
         private readonly IHeroStatisticsService _heroStatisticsService;
+        private readonly IWeekPatchService _weekPatchService;
 
-        public Fetcher(IHeroStatisticsService heroStatisticsService)
+        public Fetcher(IHeroStatisticsService heroStatisticsService, IWeekPatchService weekPatchService)
         {
             _heroStatisticsService = heroStatisticsService;
+            _weekPatchService = weekPatchService;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -22,7 +26,11 @@ namespace DotaStat.DataExtractor.Quartz
             if (lastNRankedMatches is null) return Task.CompletedTask;
 
             var pack = CreatePack(lastNRankedMatches);
-            _heroStatisticsService.AddPackResults(pack);
+            var weekPatchId = _weekPatchService.EnsureExisting(
+                    _weekPatchService.GetNeededWeekId(lastNRankedMatches.Result.Matches.First().StartTime), 
+                    _weekPatchService.GetCurrentPatch());
+
+            _heroStatisticsService.AddPackResults(pack, weekPatchId);
 
             return Task.CompletedTask;
         }
@@ -41,6 +49,10 @@ namespace DotaStat.DataExtractor.Quartz
                     {
                         var secondPlayer = match.Players[j];
 
+                        if (firstPlayer.HeroId == 0 || secondPlayer.HeroId == 0)
+                        {
+                            Debug.WriteLine("Hero error" + firstPlayer.HeroId + " " + secondPlayer.HeroId);
+                        }
                         var heroRelations = IsAllies(firstPlayer.PlayerSlot, secondPlayer.PlayerSlot) 
                             ? HeroRelations.Allies 
                             : HeroRelations.Enemies;

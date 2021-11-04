@@ -10,10 +10,11 @@
 
   <ItemGroup>
     <Folder Include="ViewModel\Account\" />
-    <Folder Include="ViewModel\ChartJs\" />
+    <Folder Include="ViewModel\Canvas\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DotaStat.Business.Interfaces\DotaStat.Business.Interfaces.csproj" />
     <ProjectReference Include="..\DotaStat.Data.EntityFramework\DotaStat.Data.EntityFramework.csproj" />
   </ItemGroup>
 

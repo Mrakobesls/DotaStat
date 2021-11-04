@@ -4,7 +4,9 @@ using DotaStat.Business.Interfaces.Models;
 using DotaStat.Business.Interfaces.Types;
 using DotaStat.Data.EntityFramework.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotaStat.Business
 {
@@ -21,9 +23,9 @@ namespace DotaStat.Business
 
         #region Current Statistics
 
-        public void AddPackResults(Pack pack)
+        public void AddPackResults(Pack pack, int weekPatchId)
         {
-            EnsureDbArrayExisits();
+            EnsureDbArrayExisits(weekPatchId);
 
             foreach (var heroMatchResultReadonly in pack.HeroWinСouples)
             {
@@ -78,7 +80,7 @@ namespace DotaStat.Business
 
             _uow.SaveChanges();
         }
-        public void EnsureDbArrayExisits()
+        public void EnsureDbArrayExisits(int weekPatchId)
         {
             _heroService.EnsureAllHeroesExists();
             var heroes = _heroService.GetAllHeroes();
@@ -86,18 +88,18 @@ namespace DotaStat.Business
 
             var estimatedWrRows = (heroesCount) / 2 * (heroesCount - 1);
 
-            if (_uow.HeroEnemyWRs.ReadAll().Count() != estimatedWrRows)
-            {
-                _uow.HeroEnemyWRs.ResetTable();
-                _uow.HeroAllyWRs.ResetTable();
+            var tabletWeekPatch = (_uow.HeroEnemyWRs.ReadAll().FirstOrDefault()?.WeekPatchId ?? -1);
 
-                var currentWeekPatchId = _weekPatchService.GetCurrentWeekPatchId();
+            if (weekPatchId != tabletWeekPatch/* || _uow.HeroEnemyWRs.ReadAll().Count() != estimatedWrRows*/)
+            {
+                if (tabletWeekPatch != -1)
+                {
+                    Squash(tabletWeekPatch);
+                }
+
+                var currentWeekPatchId = weekPatchId;//_weekPatchService.GetCurrentWeekPatchId();
                 for (byte i = 0; i < heroesCount - 1; i++)
                 {
-                    if (heroes[i].Id == 31)
-                    {
-                        Console.WriteLine();
-                    }
                     for (byte j = (byte)(i + 1); j < heroesCount; j++)
                     {
                         var tempAlly = new CurrentWinrateAlly()
@@ -115,7 +117,6 @@ namespace DotaStat.Business
                         };
                         _uow.HeroEnemyWRs.Create(tempEnemy);
                     }
-
                 }
 
                 _uow.SaveChanges();
@@ -126,10 +127,9 @@ namespace DotaStat.Business
 
         #region Weekly statistics
 
-        public void Squash()
+        public void Squash(int tabletWeekPatch)
         {
             var heroes = _heroService.GetAllHeroes();
-            var weekPatchId = _weekPatchService.GetCurrentWeekPatchId();
 
             for (int i = 1; i <= heroes.Count; i++)
             {
@@ -150,15 +150,36 @@ namespace DotaStat.Business
                         aggregatedWHW.AllGames += weeklyHeroWinrate.AllGames;
                     });
                 aggregatedWHW.HeroId = heroes[i - 1].Id;
-                aggregatedWHW.WeekPatchId = weekPatchId;
+                aggregatedWHW.WeekPatchId = tabletWeekPatch;
+                aggregatedWHW.Wins /= 5;
+                aggregatedWHW.AllGames /= 5;
 
                 _uow.WeeklyWRs.Create(aggregatedWHW);
             }
+
+            _uow.SaveChanges();
+
+            _uow.HeroEnemyWRs.ResetTable();
+            _uow.HeroAllyWRs.ResetTable();
+            _uow.DetachAllEntities();
 
             _uow.SaveChanges();
         }
 
         #endregion
 
+
+        #region GetStatistics
+
+        public List<WeeklyWinrate> getHeroWRHistory(int heroId)
+        {
+            return _uow.WeeklyWRs.ReadAll().Include(a=>a.WeekPatch)
+                .Where(h => h.HeroId == heroId)
+                .OrderBy(s=>s.WeekPatch.WeekId)
+                .ThenBy(s2=>s2.WeekPatch.Patch)
+                .ToList();
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,18 +17,28 @@ namespace DotaStat.SteamPoweredApiProvider
         private static readonly string _getHeroes =
             "http://api.steampowered.com/IEconDOTA2_570/GetHeroes/v1/?key=6FA22370F0F8EAE0B42BB466DF82CE1F&language=English";
 
-        private static string _lastMatchSeqNum;
+        private static string _lastMatchSeqNum = "5154074033";//"4667818086";
+
         private static string LastMatchSeqNum
         {
             get
             {
                 if (_lastMatchSeqNum is null)
                     SetLastMatchSeqNum();
+                if (_counterOfReq++ == 19)
+                {
+                    _counterOfReq = 0;
+                    _lastMatchSeqNum = (Convert.ToUInt64(_lastMatchSeqNum) + 6000000).ToString();
+                }
+                Console.WriteLine(_lastMatchSeqNum);
+                Debug.WriteLine(_lastMatchSeqNum);
+
                 return _lastMatchSeqNum;
             }
             set => _lastMatchSeqNum = value;
         }
 
+        private static int _counterOfReq = 0;
         #region TemplateRequest
         private static T HttpWebRequestTemple<T>(string url) where T : class
         {
@@ -63,6 +74,22 @@ namespace DotaStat.SteamPoweredApiProvider
 
             lastNMatches.Result.Matches = lastNMatches.Result.Matches[1..^1].Where(x => x.LobbyType == 7).ToArray();
 
+            var temp = lastNMatches.Result.Matches.ToList();
+            for (int i = 0; i < temp.Count; i++)
+            {
+                var match = lastNMatches.Result.Matches[i];
+                for (int j = 0; j < match.Players.Length; j++)
+                {
+                    var player = match.Players[j];
+                    if (player.LeaverStatus != 0 || player.HeroId == 0)
+                    {
+                        temp.Remove(match);
+                        break;
+                    }
+                }
+            }
+
+            lastNMatches.Result.Matches = temp.ToArray();
             return lastNMatches;
         }
 

@@ -49,6 +49,8 @@ namespace DotaStat.Business.Interfaces.Models
         public long AccountId { get; set; }
         [JsonProperty("player_slot")]
         public int PlayerSlot { get; set; }
+        [JsonProperty("leaver_status")]
+        public int LeaverStatus { get; set; }
         [JsonProperty("hero_id")]
         public int HeroId { get; set; }
     }

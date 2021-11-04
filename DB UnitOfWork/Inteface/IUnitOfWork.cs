@@ -15,5 +15,6 @@ namespace DB_UnitOfWork.Inteface
         public GenericRepository<WeeklyWinrate> WeeklyWRs { get; }
         public WeekPatchesRepository WeekPatches { get; }
         void SaveChanges();
+        void DetachAllEntities();
     }
 }

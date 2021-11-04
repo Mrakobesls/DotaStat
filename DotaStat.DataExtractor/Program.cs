@@ -23,9 +23,9 @@ namespace DotaStat.DataExtractor
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddScoped<DotaStatDbContext>();
-                    services.AddScoped<IUnitOfWork, UnitOfWork>();
                     services.AddScoped<CurrentWinrateAllyRepository>();
                     services.AddScoped<CurrentWinrateEnemyRepository>();
+                    services.AddScoped<IUnitOfWork, UnitOfWork>();
                     services.AddScoped<IHeroStatisticsService, HeroStatisticsService>();
                     services.AddScoped<IWeekPatchService, WeekPatchService>();
                     services.AddScoped<IHeroService, HeroService>();

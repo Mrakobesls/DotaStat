@@ -1,4 +1,5 @@
-﻿using DotaStat.Business.Interfaces.Models;
+﻿using System;
+using DotaStat.Business.Interfaces.Models;
 
 namespace DotaStat.Business.Interfaces
 {
@@ -8,6 +9,7 @@ namespace DotaStat.Business.Interfaces
         public int EnsureExisting(int weekId, string patch);
         public int GetCurrentWeekId();
         public int GetCurrentWeekPatchId();
+        DateTime GetDateByWeekPatchId(int weekPatchId);
         void EnsureRelevance(int startTime);
         int GetNeededWeekId(int startTime);
         string GetCurrentPatch();

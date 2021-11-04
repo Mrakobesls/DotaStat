@@ -15,15 +15,17 @@ namespace WebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly IHeroStatisticsService _heroStatisticsService;
+        private readonly IWeekPatchService _weekPatchService;
 
-        public HomeController(IHeroStatisticsService heroStatisticsService)
+        public HomeController(IHeroStatisticsService heroStatisticsService, IWeekPatchService weekPatchService)
         {
             _heroStatisticsService = heroStatisticsService;
+            _weekPatchService = weekPatchService;
         }
 
         public IActionResult Index(int heroId = 1)
         {
-            var dataPoints = new List<DataPoint>();
+        //    var dataPoints = new List<DataPoint>();
             //{
 
             //    new DataPoint("haha", 22),
@@ -32,7 +34,9 @@ namespace WebApplication.Controllers
             //    new DataPoint("40", 51),
             //    new DataPoint("50", 46),
             //};
-            _heroStatisticsService.getHeroWRHistory(heroId).Select(dp=> new DataPoint(dp.WeekPatchId, $"{(double)dp.Wins / dp.AllGames * 100:f2}%"));
+            var dataPoints = _heroStatisticsService.getHeroWRHistory(heroId)
+                .Select(dp=> new DataPoint(_weekPatchService.GetDateByWeekPatchId(dp.WeekPatchId), $"{(double)dp.Wins / dp.AllGames * 100:f2}%"))
+                .ToList();
 
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             return View();

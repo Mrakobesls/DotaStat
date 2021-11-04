@@ -15,7 +15,7 @@ namespace DB_Repositories
 
         public WeekPatch Read(params int[] id)
         {
-            return ReadAll().First(x => x.WeekId == id[0]);
+            return ReadAll().First(x => x.Id == id[0]);
         }
 
         public IQueryable<WeekPatch> ReadAll()

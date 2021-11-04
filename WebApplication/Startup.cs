@@ -6,6 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using DB_Repositories;
+using DB_UnitOfWork;
+using DB_UnitOfWork.Inteface;
+using DotaStat.Business;
+using DotaStat.Business.Interfaces;
 
 namespace WebApplication
 {
@@ -38,7 +43,14 @@ namespace WebApplication
             })
 
             .AddSteam();
+
             services.AddScoped<DotaStatDbContext>();
+            services.AddScoped<CurrentWinrateAllyRepository>();
+            services.AddScoped<CurrentWinrateEnemyRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IHeroStatisticsService, HeroStatisticsService>();
+            services.AddScoped<IWeekPatchService, WeekPatchService>();
+            services.AddScoped<IHeroService, HeroService>();
             services.AddControllersWithViews();
         }
 

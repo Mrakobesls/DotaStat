@@ -51,9 +51,9 @@ namespace DotaStat.Business
             return a;
         }
 
-        public DateTime GetDateByWeekPatchId()
+        public DateTime GetDateByWeekPatchId(int weekPatchId)
         {
-
+            return new DateTime(Convert.ToInt64(_uow.WeekPatches.Read(weekPatchId).WeekId) * 86400 * 7 * 10000000).AddTicks(new DateTime(1970, 1, 1).Ticks);
         }
 
         public void EnsureRelevance(int startTime)

@@ -3,10 +3,9 @@ using DotaStat.Business.Interfaces;
 using DotaStat.Business.Interfaces.Models;
 using DotaStat.Business.Interfaces.Types;
 using DotaStat.Data.EntityFramework.Model;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace DotaStat.Business
 {

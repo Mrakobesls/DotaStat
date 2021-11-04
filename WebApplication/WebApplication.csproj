@@ -14,7 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DB Repositories\DB Repositories.csproj" />
+    <ProjectReference Include="..\DB UnitOfWork\DB UnitOfWork.csproj" />
     <ProjectReference Include="..\DotaStat.Business.Interfaces\DotaStat.Business.Interfaces.csproj" />
+    <ProjectReference Include="..\DotaStat.Business\DotaStat.Business.csproj" />
     <ProjectReference Include="..\DotaStat.Data.EntityFramework\DotaStat.Data.EntityFramework.csproj" />
   </ItemGroup>
 

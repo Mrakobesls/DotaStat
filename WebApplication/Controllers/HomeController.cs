@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+﻿using DotaStat.Business.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using DotaStat.Business.Interfaces;
-using Newtonsoft.Json;
 using WebApplication.Models;
 using WebApplication.ViewModel;
 
@@ -16,35 +12,44 @@ namespace WebApplication.Controllers
     {
         private readonly IHeroStatisticsService _heroStatisticsService;
         private readonly IWeekPatchService _weekPatchService;
+        private readonly IHeroService _heroService;
 
-        public HomeController(IHeroStatisticsService heroStatisticsService, IWeekPatchService weekPatchService)
+        public HomeController(IHeroStatisticsService heroStatisticsService, IWeekPatchService weekPatchService, IHeroService heroService)
         {
             _heroStatisticsService = heroStatisticsService;
             _weekPatchService = weekPatchService;
+            _heroService = heroService;
         }
 
-        public IActionResult Index(int heroId = 1)
+        [HttpGet]
+        public IActionResult Index()
         {
-        //    var dataPoints = new List<DataPoint>();
-            //{
+            return View();
+        }
 
-            //    new DataPoint("haha", 22),
-            //    new DataPoint("hehe", 36),
-            //    new DataPoint("hoho", 42),
-            //    new DataPoint("40", 51),
-            //    new DataPoint("50", 46),
-            //};
-            var dataPoints = _heroStatisticsService.getHeroWRHistory(heroId)
-                .Select(dp=> new DataPoint(_weekPatchService.GetDateByWeekPatchId(dp.WeekPatchId), $"{(double)dp.Wins / dp.AllGames * 100:f2}%"))
+        [HttpGet]
+        public IActionResult HeroStatistic()
+        {
+            ViewBag.AllHeroes = _heroService.GetAllHeroes().Select(h => new Hero() { Id = h.Id, Name = h.Name }).ToList();
+            ViewBag.HeroName = "";
+
+            return View(new Hero());
+        }
+
+        [HttpPost]
+        public IActionResult HeroStatistic(Hero hero)
+        {
+            var dataPoints = _heroStatisticsService.getHeroWRHistory((int)hero.Id)
+                .Select(dp => new DataPoint(_weekPatchService.GetDateByWeekPatchId(dp.WeekPatchId), (double)dp.Wins / dp.AllGames * 100))
                 .ToList();
-
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
+            var allHeroes = _heroService.GetAllHeroes().ToList();
+            ViewBag.AllHeroes = allHeroes;
+
+            ViewBag.HeroName = allHeroes.First(x=>x.Id == hero.Id).Name;
+
+            return View("HeroStatistic", hero);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

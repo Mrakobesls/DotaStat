@@ -9,7 +9,7 @@ namespace DotaStat.Business.Interfaces
         public int EnsureExisting(int weekId, string patch);
         public int GetCurrentWeekId();
         public int GetCurrentWeekPatchId();
-        DateTime GetDateByWeekPatchId(int weekPatchId);
+        string GetDateByWeekPatchId(int weekPatchId);
         void EnsureRelevance(int startTime);
         int GetNeededWeekId(int startTime);
         string GetCurrentPatch();

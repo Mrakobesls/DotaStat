@@ -17,7 +17,7 @@ namespace DotaStat.SteamPoweredApiProvider
         private static readonly string _getHeroes =
             "http://api.steampowered.com/IEconDOTA2_570/GetHeroes/v1/?key=6FA22370F0F8EAE0B42BB466DF82CE1F&language=English";
 
-        private static string _lastMatchSeqNum = "5154074033";//"4667818086";
+        private static string _lastMatchSeqNum; //= "5154074033";//"4667818086";
 
         private static string LastMatchSeqNum
         {
@@ -25,11 +25,11 @@ namespace DotaStat.SteamPoweredApiProvider
             {
                 if (_lastMatchSeqNum is null)
                     SetLastMatchSeqNum();
-                if (_counterOfReq++ == 19)
-                {
-                    _counterOfReq = 0;
-                    _lastMatchSeqNum = (Convert.ToUInt64(_lastMatchSeqNum) + 6000000).ToString();
-                }
+                //if (_counterOfReq++ == 19)
+                //{
+                //    _counterOfReq = 0;
+                //    _lastMatchSeqNum = (Convert.ToUInt64(_lastMatchSeqNum) + 6000000).ToString();
+                //}
                 Console.WriteLine(_lastMatchSeqNum);
                 Debug.WriteLine(_lastMatchSeqNum);
 
@@ -38,7 +38,7 @@ namespace DotaStat.SteamPoweredApiProvider
             set => _lastMatchSeqNum = value;
         }
 
-        private static int _counterOfReq = 0;
+        //private static int _counterOfReq = 0;
         #region TemplateRequest
         private static T HttpWebRequestTemple<T>(string url) where T : class
         {

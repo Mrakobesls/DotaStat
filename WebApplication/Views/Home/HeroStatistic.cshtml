@@ -1,0 +1,51 @@
+﻿@model WebApplication.ViewModel.Hero
+
+@using (Html.BeginForm("HeroStatistic", "Home", FormMethod.Post))
+{
+    //@Html.DropDownListFor(h=>h.Id, new SelectList(ViewBag.AllHeroes, "Id", "Name"), "Select hero")
+
+    @Html.DropDownListFor(h => h.Id,
+        new SelectList(ViewBag.AllHeroes, "Id", "Name").OrderBy(x=>x.Text));
+    //<hr />
+    <input type="submit" value="Send" />
+    //@Html.ActionLink("Show", "HeroStatistic", "Home", new { }, new { type = "button", @class = "btn btn-warning" });
+}
+
+<h1>@Html.Raw(ViewBag.HeroName)</h1>
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2",
+            zoomEnabled: true,
+            animationEnabled: true,
+            axisY: {
+                valueFormatString: "##.##",
+                minimum: 10
+                //labelFormatter: function(e){
+                //    return e.value + "%";
+                //}
+            },
+            axisX: {
+                //stripLines: [{
+                //    value: 15,
+                //    thickness: 2,
+                //    label: "Now",
+                //    color: "green",
+                //    labelPlacement: "outside"
+                //}],
+                labelAngle: -50,
+                tickLength: 0
+            },
+            data: [
+                {
+                    type: "line",
+                    dataPoints: @Html.Raw(ViewBag.DataPoints),
+    }
+            ]
+        });
+    chart.render();
+    };
+</script>

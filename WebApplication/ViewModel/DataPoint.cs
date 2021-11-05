@@ -4,7 +4,7 @@ namespace WebApplication.ViewModel
 {
     public class DataPoint
     {
-        [JsonProperty("x")]
+        [JsonProperty("label")]
         public object X;
         [JsonProperty("y")]
         public object Y;

@@ -6,11 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using DB_Repositories;
-using DB_UnitOfWork;
-using DB_UnitOfWork.Inteface;
 using DotaStat.Business;
 using DotaStat.Business.Interfaces;
+using DotaStat.Data.EntityFramework.Repositories;
+using DotaStat.Data.EntityFramework.UnitOfWork;
 
 namespace WebApplication
 {

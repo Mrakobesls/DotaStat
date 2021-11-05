@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DataBase.Model;
 
 namespace DotaStat.Data.EntityFramework.Model
 {

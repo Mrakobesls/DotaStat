@@ -4,7 +4,6 @@ using DotaStat.Business.Interfaces;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System.Threading.Tasks;
-using DB_UnitOfWork.Inteface;
 
 namespace DotaStat.DataExtractor
 {

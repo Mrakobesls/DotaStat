@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DataBase.Model;
-using DB_UnitOfWork.Inteface;
+using DotaStat.Data.EntityFramework.Model;
+using DotaStat.Data.EntityFramework.UnitOfWork;
 
 namespace DotaStat.Business
 {

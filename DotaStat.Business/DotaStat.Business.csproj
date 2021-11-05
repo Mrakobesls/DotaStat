@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DB UnitOfWork\DB UnitOfWork.csproj" />
     <ProjectReference Include="..\DotaStat.Business.Interfaces\DotaStat.Business.Interfaces.csproj" />
     <ProjectReference Include="..\DotaStat.SteamPoweredApiProvider\DotaStat.SteamPoweredApiProvider.csproj" />
   </ItemGroup>

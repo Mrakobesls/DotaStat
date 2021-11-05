@@ -1,9 +1,9 @@
-﻿using DB_UnitOfWork.Inteface;
-using DotaStat.Business.Interfaces;
+﻿using DotaStat.Business.Interfaces;
 using DotaStat.Business.Interfaces.Models;
 using DotaStat.Data.EntityFramework.Model;
 using System;
 using System.Linq;
+using DotaStat.Data.EntityFramework.UnitOfWork;
 
 namespace DotaStat.Business
 {

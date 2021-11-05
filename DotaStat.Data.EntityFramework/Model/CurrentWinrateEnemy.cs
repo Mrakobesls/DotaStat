@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using DataBase.Model;
 
 namespace DotaStat.Data.EntityFramework.Model
 {

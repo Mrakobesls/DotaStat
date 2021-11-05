@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using DB_UnitOfWork.Inteface;
 using DotaStat.Business.Interfaces;
 using DotaStat.SteamPoweredApiProvider;
 using System.Linq;
 using DotaStat.Data.EntityFramework.Model;
+using DotaStat.Data.EntityFramework.UnitOfWork;
 
 namespace DotaStat.Business
 {

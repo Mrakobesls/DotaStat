@@ -1,4 +1,4 @@
-﻿using DB_UnitOfWork.Inteface;
+﻿using DotaStat.Data.EntityFramework.UnitOfWork;
 
 namespace DotaStat.Business
 {

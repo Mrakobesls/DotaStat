@@ -1,13 +1,26 @@
 ﻿using Identity.API.Configuration;
 using Identity.API.Models;
-using Identity.API.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+// builder.AddServiceDefaults();
+builder.Services.AddCors(options =>
+{
+    // this defines a CORS policy called "default"
+    options.AddPolicy("default", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .Build();
+    });
+});
 
 builder.Services.AddControllersWithViews();
+
 
 // builder.AddNpgsqlDbContext<ApplicationDbContext>("IdentityDB");
 
@@ -16,9 +29,12 @@ builder.Services.AddControllersWithViews();
 // migrations instead.
 // builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
 
-builder.Services.AddIdentity<ApplicationUser, Microsoft.AspNetCore.Identity.IdentityRole>()
-        // .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+// builder.Services.AddIdentity<Microsoft.AspNetCore.Identity.IdentityUser, Microsoft.AspNetCore.Identity.IdentityRole>()
+//         // .AddEntityFrameworkStores<ApplicationDbContext>()
+//         .AddDefaultTokenProviders();
+// builder.Services.AddOidcStateDataFormatterCache();
+
+
 
 builder.Services.AddIdentityServer(options =>
 {
@@ -34,12 +50,19 @@ builder.Services.AddIdentityServer(options =>
 .AddInMemoryApiScopes(Config.GetApiScopes())
 .AddInMemoryApiResources(Config.GetApis())
 .AddInMemoryClients(Config.GetClients(builder.Configuration))
-.AddAspNetIdentity<ApplicationUser>()
 .AddDeveloperSigningCredential(); // Not recommended for production - you need to store your key material somewhere secure
 
-builder.Services.AddTransient<IProfileService, ProfileService>();
-builder.Services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
-builder.Services.AddTransient<IRedirectService, RedirectService>();
+
+builder.Services.AddAuthentication()
+    .AddSteam(
+        options =>
+        {
+            options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+            options.CorrelationCookie.SameSite = SameSiteMode.None;
+            options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.None;
+        }
+    );
 
 var app = builder.Build();
 
@@ -47,6 +70,7 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 
+app.UseCors("default");
 // This cookie policy fixes login issues with Chrome 80+ using HTTP
 app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 app.UseRouting();
@@ -54,5 +78,7 @@ app.UseIdentityServer();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
+
+app.MapGet("textOk", () => "Ok");
 
 app.Run();

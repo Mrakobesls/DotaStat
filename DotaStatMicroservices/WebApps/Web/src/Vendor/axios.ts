@@ -5,7 +5,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5050',
+    baseURL: 'http://dotastat:5050',
     
     // Our authorization is stored in a cookie.
     // That cookie needs to be included in requests to the API which are at a different domain
@@ -18,6 +18,10 @@ const instance = axios.create({
         Expires: "0"
     }
 });
+
+export const setAuthHeader = (token: string) => {
+    axios.defaults.headers.common['Authorization'] = token ? 'Bearer ' + token : '';
+}
 
 export default instance;
 

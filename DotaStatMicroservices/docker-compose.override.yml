@@ -4,25 +4,27 @@ services:
   identity-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
-#      - WebClient=http://${EXTERNAL_DNS_NAME_OR_IP}:5035
+      - ASPNETCORE_URLS=http://0.0.0.0:5041
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5041
+      - WebClient=http://${EXTERNAL_DNS_NAME_OR_IP}:5035
       - ApiGatewayClient=http://${EXTERNAL_DNS_NAME_OR_IP}:5050
       - UseCustomizationData=True
       - ApplicationInsights__InstrumentationKey=${INSTRUMENTATION_KEY}
       - OrchestratorType=${ORCHESTRATOR_TYPE}
     ports:
-      - "5040:80"
+      - "5041:5041"
 
   statistics-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:80
+      - ASPNETCORE_URLS=http://0.0.0.0:5036
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5036
       - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
       - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
       - OrchestratorType=${ORCHESTRATOR_TYPE}
       - PATH_BASE=/statistics
     ports:
-      - "5036:80"
+      - "5036:5036"
    
 #  web:
 ##    environment:
@@ -33,5 +35,7 @@ services:
   api-gateway:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5050
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5050
     ports:
-      - "5050:80"
+      - "5050:5050"

@@ -1,13 +1,16 @@
-﻿namespace DotaStat.Data.EntityFramework.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Statistics.Business.Model
 {
+    [Table(nameof(Hero))]
     public class Hero
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<CurrentWinrateAlly> CurrentWinrateAlliesMain { get; set; }
-        public ICollection<CurrentWinrateAlly> CurrentWinrateAlliesCompared { get; set; }
-        public ICollection<CurrentWinrateEnemy> CurrentWinrateEnemiesMain { get; set; }
-        public ICollection<CurrentWinrateEnemy> CurrentWinrateEnemiesCompared { get; set; }
-        public ICollection<WeeklyWinrate> WeeklyWinRates { get; set; }
+        public ICollection<CurrentWinRateAlly> CurrentWinRateAlliesMains { get; set; }
+        public ICollection<CurrentWinRateAlly> CurrentWinRateAlliesCompareds { get; set; }
+        public ICollection<CurrentWinRateEnemy> CurrentWinRateEnemiesMains { get; set; }
+        public ICollection<CurrentWinRateEnemy> CurrentWinRateEnemiesCompareds { get; set; }
+        public ICollection<WeeklyWinRate> WeeklyWinRates { get; set; }
     }
 }

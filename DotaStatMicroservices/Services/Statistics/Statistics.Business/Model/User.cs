@@ -1,8 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DotaStat.Data.EntityFramework.Model
+namespace Statistics.Business.Model
 {
     public class User
     {
@@ -11,8 +10,8 @@ namespace DotaStat.Data.EntityFramework.Model
         public DateTime MyProperty { get; set; }
 
         public int Role { get; set; }
-        [ForeignKey("Role")]
-        public virtual UserRole UserRole { get; set; }
+        [ForeignKey(nameof(Role))]
+        public virtual UserRole Roles { get; set; }
 
         public bool IsDeleted { get; set; }
     }

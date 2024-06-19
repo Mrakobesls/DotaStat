@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DotaStat.Data.EntityFramework.Model
+namespace Statistics.Business.Model
 {
     public class UserRole
     {
         [Key]
         public int Id { get; set; }
-        public virtual ICollection<User> Users { get; set; }
         public string Name { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }

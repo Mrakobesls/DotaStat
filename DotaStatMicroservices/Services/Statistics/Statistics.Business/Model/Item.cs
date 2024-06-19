@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DotaStat.Data.EntityFramework.Model
+namespace Statistics.Business.Model
 {
+    [Table(nameof(Item))]
     public class Item
     {
         [Key]

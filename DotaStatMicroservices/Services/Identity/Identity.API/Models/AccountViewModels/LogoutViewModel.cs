@@ -1,7 +1,6 @@
-﻿namespace Identity.API.Models.AccountViewModels
+﻿namespace Identity.API.Models.AccountViewModels;
+
+public record LogoutViewModel
 {
-    public record LogoutViewModel
-    {
-        public string LogoutId { get; set; }
-    }
+    public string LogoutId { get; set; }
 }

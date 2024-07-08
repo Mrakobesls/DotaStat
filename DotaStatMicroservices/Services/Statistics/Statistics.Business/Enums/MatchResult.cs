@@ -1,8 +1,7 @@
-﻿namespace Statistics.Business.Enums
+﻿namespace Statistics.Business.Enums;
+
+public enum MatchResult
 {
-    public enum MatchResult
-    {
-        Win,
-        Lose
-    }
+    Win,
+    Lose
 }

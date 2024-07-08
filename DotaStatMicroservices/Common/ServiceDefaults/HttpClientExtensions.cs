@@ -26,11 +26,6 @@ public static class HttpClientExtensions
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-
         public HttpClientAuthorizationDelegatingHandler(IHttpContextAccessor httpContextAccessor, HttpMessageHandler innerHandler) : base(innerHandler)
         {
             _httpContextAccessor = httpContextAccessor;

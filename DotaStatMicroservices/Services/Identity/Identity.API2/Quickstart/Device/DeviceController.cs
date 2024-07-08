@@ -17,32 +17,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IdentityServerHost.Quickstart.UI
-{
-    [Authorize]
-    [SecurityHeaders]
-    public class DeviceController : Controller
-    {
-        private readonly IDeviceFlowInteractionService _interaction;
-        private readonly IEventService _events;
-        private readonly IOptions<IdentityServerOptions> _options;
-        private readonly ILogger<DeviceController> _logger;
+namespace IdentityServerHost.Quickstart.UI;
 
-        public DeviceController(
-            IDeviceFlowInteractionService interaction,
-            IEventService eventService,
-            IOptions<IdentityServerOptions> options,
-            ILogger<DeviceController> logger)
-        {
+[Authorize]
+[SecurityHeaders]
+public class DeviceController : Controller
+{
+    private readonly IDeviceFlowInteractionService _interaction;
+    private readonly IEventService _events;
+    private readonly IOptions<IdentityServerOptions> _options;
+    private readonly ILogger<DeviceController> _logger;
+
+    public DeviceController(
+        IDeviceFlowInteractionService interaction,
+        IEventService eventService,
+        IOptions<IdentityServerOptions> options,
+        ILogger<DeviceController> logger)
+    {
             _interaction = interaction;
             _events = eventService;
             _options = options;
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
             string userCodeParamName = _options.Value.UserInteraction.DeviceVerificationUserCodeParameter;
             string userCode = Request.Query[userCodeParamName];
             if (string.IsNullOrWhiteSpace(userCode)) return View("UserCodeCapture");
@@ -54,20 +54,20 @@ namespace IdentityServerHost.Quickstart.UI
             return View("UserCodeConfirmation", vm);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserCodeCapture(string userCode)
-        {
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UserCodeCapture(string userCode)
+    {
             var vm = await BuildViewModelAsync(userCode);
             if (vm == null) return View("Error");
 
             return View("UserCodeConfirmation", vm);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Callback(DeviceAuthorizationInputModel model)
-        {
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Callback(DeviceAuthorizationInputModel model)
+    {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
             var result = await ProcessConsent(model);
@@ -76,8 +76,8 @@ namespace IdentityServerHost.Quickstart.UI
             return View("Success");
         }
 
-        private async Task<ProcessConsentResult> ProcessConsent(DeviceAuthorizationInputModel model)
-        {
+    private async Task<ProcessConsentResult> ProcessConsent(DeviceAuthorizationInputModel model)
+    {
             var result = new ProcessConsentResult();
 
             var request = await _interaction.GetAuthorizationContextAsync(model.UserCode);
@@ -143,8 +143,8 @@ namespace IdentityServerHost.Quickstart.UI
             return result;
         }
 
-        private async Task<DeviceAuthorizationViewModel> BuildViewModelAsync(string userCode, DeviceAuthorizationInputModel model = null)
-        {
+    private async Task<DeviceAuthorizationViewModel> BuildViewModelAsync(string userCode, DeviceAuthorizationInputModel model = null)
+    {
             var request = await _interaction.GetAuthorizationContextAsync(userCode);
             if (request != null)
             {
@@ -154,8 +154,8 @@ namespace IdentityServerHost.Quickstart.UI
             return null;
         }
 
-        private DeviceAuthorizationViewModel CreateConsentViewModel(string userCode, DeviceAuthorizationInputModel model, DeviceFlowAuthorizationRequest request)
-        {
+    private DeviceAuthorizationViewModel CreateConsentViewModel(string userCode, DeviceAuthorizationInputModel model, DeviceFlowAuthorizationRequest request)
+    {
             var vm = new DeviceAuthorizationViewModel
             {
                 UserCode = userCode,
@@ -191,8 +191,8 @@ namespace IdentityServerHost.Quickstart.UI
             return vm;
         }
 
-        private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
-        {
+    private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
+    {
             return new ScopeViewModel
             {
                 Value = identity.Name,
@@ -204,8 +204,8 @@ namespace IdentityServerHost.Quickstart.UI
             };
         }
 
-        public ScopeViewModel CreateScopeViewModel(ParsedScopeValue parsedScopeValue, ApiScope apiScope, bool check)
-        {
+    public ScopeViewModel CreateScopeViewModel(ParsedScopeValue parsedScopeValue, ApiScope apiScope, bool check)
+    {
             return new ScopeViewModel
             {
                 Value = parsedScopeValue.RawValue,
@@ -217,8 +217,8 @@ namespace IdentityServerHost.Quickstart.UI
                 Checked = check || apiScope.Required
             };
         }
-        private ScopeViewModel GetOfflineAccessScope(bool check)
-        {
+    private ScopeViewModel GetOfflineAccessScope(bool check)
+    {
             return new ScopeViewModel
             {
                 Value = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
@@ -228,5 +228,4 @@ namespace IdentityServerHost.Quickstart.UI
                 Checked = check
             };
         }
-    }
 }

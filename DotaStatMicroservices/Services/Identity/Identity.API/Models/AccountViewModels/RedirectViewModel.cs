@@ -1,7 +1,6 @@
-﻿namespace Identity.API.Models.AccountViewModels
+﻿namespace Identity.API.Models.AccountViewModels;
+
+public class RedirectViewModel
 {
-    public class RedirectViewModel
-    {
-        public string RedirectUrl { get; set; }
-    }
+    public string RedirectUrl { get; set; }
 }

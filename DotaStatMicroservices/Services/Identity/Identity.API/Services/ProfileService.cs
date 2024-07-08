@@ -1,18 +1,18 @@
 ﻿using Identity.API.Models;
 
-namespace Identity.API.Services
-{
-    public class ProfileService : IProfileService
-    {
-        private readonly UserManager<ApplicationUser> _userManager;
+namespace Identity.API.Services;
 
-        public ProfileService(UserManager<ApplicationUser> userManager)
-        {
+public class ProfileService : IProfileService
+{
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public ProfileService(UserManager<ApplicationUser> userManager)
+    {
             _userManager = userManager;
         }
 
-        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
-        {
+    public async Task GetProfileDataAsync(ProfileDataRequestContext context)
+    {
             var subject = context.Subject ?? throw new ArgumentNullException(nameof(context.Subject));
 
             var subjectId = subject.Claims.Where(x => x.Type == "sub").FirstOrDefault()?.Value;
@@ -25,8 +25,8 @@ namespace Identity.API.Services
             context.IssuedClaims = claims.ToList();
         }
 
-        public async Task IsActiveAsync(IsActiveContext context)
-        {
+    public async Task IsActiveAsync(IsActiveContext context)
+    {
             var subject = context.Subject ?? throw new ArgumentNullException(nameof(context.Subject));
 
             var subjectId = subject.Claims.Where(x => x.Type == "sub").FirstOrDefault()?.Value;
@@ -54,8 +54,8 @@ namespace Identity.API.Services
             }
         }
 
-        private IEnumerable<Claim> GetClaimsFromUser(ApplicationUser user)
-        {
+    private IEnumerable<Claim> GetClaimsFromUser(ApplicationUser user)
+    {
             var claims = new List<Claim>
             {
                 new Claim(JwtClaimTypes.Subject, user.Id),
@@ -116,5 +116,4 @@ namespace Identity.API.Services
 
             return claims;
         }
-    }
 }

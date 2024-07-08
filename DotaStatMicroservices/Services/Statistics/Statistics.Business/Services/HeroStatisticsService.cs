@@ -3,36 +3,37 @@ using Statistics.Business.Enums;
 using Statistics.Business.Model;
 using Statistics.Business.Types;
 
-namespace Statistics.Business.Services
+namespace Statistics.Business.Services;
+
+public interface IHeroStatisticsService
 {
-    public interface IHeroStatisticsService
-    {
-        Task AddPackResults(Pack pack, int weekPatchId);
-        Task Squash(int tabletWeekPatch);
-        List<WeeklyWinRate> GetHeroWrHistory(int heroId);
-    }
+    Task AddPackResults(Pack pack, int weekPatchId);
+    Task Squash(int tabletWeekPatch);
+    List<WeeklyWinRate> GetHeroWrHistory(int heroId);
+}
 
-    public class HeroStatisticsService : IHeroStatisticsService
-    {
-        private readonly IWeekPatchService _weekPatchService;
-        private readonly IHeroService _heroService;
-        private readonly DotaStatDbContext _dbContext;
+public class HeroStatisticsService : IHeroStatisticsService
+{
+    private readonly IWeekPatchService _weekPatchService;
+    private readonly IHeroService _heroService;
+    private readonly DotaStatDbContext _dbContext;
 
-        public HeroStatisticsService(IWeekPatchService weekPatchService, IHeroService heroService, DotaStatDbContext dbContext)
-        {
+    public HeroStatisticsService(IWeekPatchService weekPatchService, IHeroService heroService, DotaStatDbContext dbContext)
+    {
             _weekPatchService = weekPatchService;
             _heroService = heroService;
             _dbContext = dbContext;
         }
 
-        #region Current Statistics
+    #region Current Statistics
 
-        public async Task AddPackResults(Pack pack, int weekPatchId)
-        {
+    public async Task AddPackResults(Pack pack, int weekPatchId)
+    {
             await EnsureDbArrayExists(weekPatchId);
 
-            await _dbContext.CurrentWinrateAllies.LoadAsync();
-            await _dbContext.CurrentWinrateEnemies.LoadAsync();
+            var currentWinrateAllies = await _dbContext.CurrentWinrateAllies.ToListAsync();
+            var currentWinrateEnemies = await _dbContext.CurrentWinrateEnemies.ToListAsync();
+
             foreach (var heroMatchResultReadonly in pack.HeroWinCouples)
             {
                 var heroMatchResult = heroMatchResultReadonly;
@@ -42,21 +43,22 @@ namespace Statistics.Business.Services
                     {
                         if (heroMatchResult.FirstHero > heroMatchResult.SecondHero)
                         {
-                            var tempp = heroMatchResult.FirstHero;
-                            heroMatchResult.FirstHero = heroMatchResult.SecondHero;
-                            heroMatchResult.SecondHero = tempp;
+                            (heroMatchResult.FirstHero, heroMatchResult.SecondHero) = (heroMatchResult.SecondHero, heroMatchResult.FirstHero);
                         }
 
-                        var temp = _dbContext.CurrentWinrateAllies.First(
+                        var temp = currentWinrateAllies.First(
                             x => x.MainHeroId == heroMatchResult.FirstHero
                                 && x.ComparedHeroId == heroMatchResult.SecondHero
                         );
 
                         if (heroMatchResult.MatchResult == MatchResult.Win)
+                        {
                             temp.Wins++;
+                        }
                         else
+                        {
                             temp.Loses++;
-                        _dbContext.CurrentWinrateAllies.Update(temp);
+                        }
 
                         break;
                     }
@@ -64,24 +66,25 @@ namespace Statistics.Business.Services
                     {
                         if (heroMatchResult.FirstHero > heroMatchResult.SecondHero)
                         {
-                            var tempp = heroMatchResult.FirstHero;
-                            heroMatchResult.FirstHero = heroMatchResult.SecondHero;
-                            heroMatchResult.SecondHero = tempp;
+                            (heroMatchResult.FirstHero, heroMatchResult.SecondHero) = (heroMatchResult.SecondHero, heroMatchResult.FirstHero);
                             heroMatchResult.MatchResult = heroMatchResult.MatchResult == MatchResult.Win
                                 ? MatchResult.Lose
                                 : MatchResult.Win;
                         }
 
-                        var temp = _dbContext.CurrentWinrateEnemies.First(
+                        var temp = currentWinrateEnemies.First(
                             x => x.MainHeroId == heroMatchResult.FirstHero
                                 && x.ComparedHeroId == heroMatchResult.SecondHero
                         );
 
                         if (heroMatchResult.MatchResult == MatchResult.Win)
+                        {
                             temp.Wins++;
+                        }
                         else
+                        {
                             temp.Loses++;
-                        _dbContext.CurrentWinrateEnemies.Update(temp);
+                        }
 
                         break;
                     }
@@ -89,14 +92,16 @@ namespace Statistics.Business.Services
                         throw new Exception($"Invalid relationship {heroMatchResult.HeroRelations}");
                 }
             }
+            _dbContext.CurrentWinrateAllies.UpdateRange(currentWinrateAllies);
+            _dbContext.CurrentWinrateEnemies.UpdateRange(currentWinrateEnemies);
 
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task EnsureDbArrayExists(int weekPatchId)
-        {
+    private async Task EnsureDbArrayExists(int weekPatchId)
+    {
             await _heroService.EnsureAllExist();
-            var heroes = _heroService.GetAll();
+            var heroes = await _heroService.GetAllAsync();
             var heroesCount = heroes.Count;
 
             var estimatedWrRows = (heroesCount) / 2 * (heroesCount - 1);
@@ -114,20 +119,18 @@ namespace Statistics.Business.Services
                 {
                     for (var j = i + 1; j < heroesCount; j++)
                     {
-                        var tempAlly = new CurrentWinRateAlly
+                        _dbContext.CurrentWinrateAllies.Add(new CurrentWinRateAlly
                         {
                             WeekPatchId = weekPatchId,
                             MainHeroId = heroes[i].Id,
                             ComparedHeroId = heroes[j].Id
-                        };
-                        _dbContext.CurrentWinrateAllies.Add(tempAlly);
-                        var tempEnemy = new CurrentWinRateEnemy
+                        });
+                        _dbContext.CurrentWinrateEnemies.Add(new CurrentWinRateEnemy
                         {
                             WeekPatchId = weekPatchId,
                             MainHeroId = heroes[i].Id,
                             ComparedHeroId = heroes[j].Id
-                        };
-                        _dbContext.CurrentWinrateEnemies.Add(tempEnemy);
+                        });
                     }
                 }
 
@@ -135,13 +138,13 @@ namespace Statistics.Business.Services
             }
         }
 
-        #endregion
+    #endregion
 
-        #region Weekly statistics
+    #region Weekly statistics
 
-        public async Task Squash(int tabletWeekPatch)
-        {
-            var heroes = _heroService.GetAll();
+    public async Task Squash(int tabletWeekPatch)
+    {
+            var heroes = await _heroService.GetAllAsync();
 
             for (var i = 1; i <= heroes.Count; i++)
             {
@@ -186,12 +189,12 @@ namespace Statistics.Business.Services
            await  _dbContext.SaveChangesAsync();
         }
 
-        #endregion
+    #endregion
 
-        #region GetStatistics
+    #region GetStatistics
 
-        public List<WeeklyWinRate> GetHeroWrHistory(int heroId)
-        {
+    public List<WeeklyWinRate> GetHeroWrHistory(int heroId)
+    {
             return _dbContext.WeeklyHeroWinRates
                 .Where(h => h.HeroId == heroId)
                 .OrderBy(s => s.WeekPatch.WeekId)
@@ -199,6 +202,5 @@ namespace Statistics.Business.Services
                 .ToList();
         }
 
-        #endregion
-    }
+    #endregion
 }

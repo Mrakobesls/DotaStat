@@ -10,25 +10,25 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace IdentityServerHost.Quickstart.UI
-{
-    [SecurityHeaders]
-    [AllowAnonymous]
-    public class HomeController : Controller
-    {
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly IWebHostEnvironment _environment;
-        private readonly ILogger _logger;
+namespace IdentityServerHost.Quickstart.UI;
 
-        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
-        {
+[SecurityHeaders]
+[AllowAnonymous]
+public class HomeController : Controller
+{
+    private readonly IIdentityServerInteractionService _interaction;
+    private readonly IWebHostEnvironment _environment;
+    private readonly ILogger _logger;
+
+    public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
+    {
             _interaction = interaction;
             _environment = environment;
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
+    public IActionResult Index()
+    {
             if (_environment.IsDevelopment())
             {
                 // only show in development
@@ -39,11 +39,11 @@ namespace IdentityServerHost.Quickstart.UI
             return NotFound();
         }
 
-        /// <summary>
-        /// Shows the error page
-        /// </summary>
-        public async Task<IActionResult> Error(string errorId)
-        {
+    /// <summary>
+    /// Shows the error page
+    /// </summary>
+    public async Task<IActionResult> Error(string errorId)
+    {
             var vm = new ErrorViewModel();
 
             // retrieve error details from identityserver
@@ -61,5 +61,4 @@ namespace IdentityServerHost.Quickstart.UI
 
             return View("Error", vm);
         }
-    }
 }

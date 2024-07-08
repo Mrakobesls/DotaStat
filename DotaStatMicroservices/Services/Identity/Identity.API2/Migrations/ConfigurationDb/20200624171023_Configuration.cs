@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Identity.API.Migrations.ConfigurationDb
+namespace Identity.API.Migrations.ConfigurationDb;
+
+public partial class Configuration : Migration
 {
-    public partial class Configuration : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
             migrationBuilder.CreateTable(
                 name: "ApiResources",
                 columns: table => new
@@ -588,8 +588,8 @@ namespace Identity.API.Migrations.ConfigurationDb
                 unique: true);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
             migrationBuilder.DropTable(
                 name: "ApiResourceClaims");
 
@@ -653,5 +653,4 @@ namespace Identity.API.Migrations.ConfigurationDb
             migrationBuilder.DropTable(
                 name: "IdentityResources");
         }
-    }
 }

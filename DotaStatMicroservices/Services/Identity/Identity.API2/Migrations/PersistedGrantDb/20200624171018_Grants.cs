@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Identity.API.Migrations.PersistedGrantDb
+namespace Identity.API.Migrations.PersistedGrantDb;
+
+public partial class Grants : Migration
 {
-    public partial class Grants : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
             migrationBuilder.CreateTable(
                 name: "DeviceCodes",
                 columns: table => new
@@ -73,13 +73,12 @@ namespace Identity.API.Migrations.PersistedGrantDb
                 columns: new[] { "SubjectId", "SessionId", "Type" });
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
             migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
         }
-    }
 }

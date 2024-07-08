@@ -10,12 +10,12 @@ using System.Linq;
 using IdentityServer4.EntityFramework.Storage;
 using Serilog;
 
-namespace Identity.API
+namespace Identity.API;
+
+public class SeedData
 {
-    public class SeedData
+    public static void EnsureSeedData(string connectionString)
     {
-        public static void EnsureSeedData(string connectionString)
-        {
             var services = new ServiceCollection();
             services.AddOperationalDbContext(options =>
             {
@@ -38,8 +38,8 @@ namespace Identity.API
             }
         }
 
-        private static void EnsureSeedData(ConfigurationDbContext context)
-        {
+    private static void EnsureSeedData(ConfigurationDbContext context)
+    {
             if (!context.Clients.Any())
             {
                 Log.Debug("Clients being populated");
@@ -82,5 +82,4 @@ namespace Identity.API
                 Log.Debug("ApiScopes already populated");
             }
         }
-    }
 }

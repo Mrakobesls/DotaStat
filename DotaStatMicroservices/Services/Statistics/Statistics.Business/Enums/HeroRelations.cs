@@ -1,8 +1,7 @@
-﻿namespace Statistics.Business.Enums
+﻿namespace Statistics.Business.Enums;
+
+public enum HeroRelations
 {
-    public enum HeroRelations
-    {
-        Allies,
-        Enemies
-    }
+    Allies,
+    Enemies
 }

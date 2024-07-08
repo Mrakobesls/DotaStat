@@ -1,26 +1,26 @@
 using Duende.IdentityServer.Test;
 using Identity.API.Quickstart;
 
-namespace IdentityServerHost.Quickstart.UI
-{
-    [SecurityHeaders]
-    [AllowAnonymous]
-    public class ExternalController : Controller
-    {
-        private readonly TestUserStore _users;
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly IClientStore _clientStore;
-        private readonly ILogger<ExternalController> _logger;
-        private readonly IEventService _events;
+namespace IdentityServerHost.Quickstart.UI;
 
-        public ExternalController(
-            IIdentityServerInteractionService interaction,
-            IClientStore clientStore,
-            IEventService events,
-            ILogger<ExternalController> logger,
-            TestUserStore users = null
-        )
-        {
+[SecurityHeaders]
+[AllowAnonymous]
+public class ExternalController : Controller
+{
+    private readonly TestUserStore _users;
+    private readonly IIdentityServerInteractionService _interaction;
+    private readonly IClientStore _clientStore;
+    private readonly ILogger<ExternalController> _logger;
+    private readonly IEventService _events;
+
+    public ExternalController(
+        IIdentityServerInteractionService interaction,
+        IClientStore clientStore,
+        IEventService events,
+        ILogger<ExternalController> logger,
+        TestUserStore users = null
+    )
+    {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
             _users = users ?? new TestUserStore([]);
@@ -31,12 +31,12 @@ namespace IdentityServerHost.Quickstart.UI
             _events = events;
         }
 
-        /// <summary>
-        /// initiate roundtrip to external authentication provider
-        /// </summary>
-        [HttpGet]
-        public IActionResult Challenge(string scheme, string returnUrl)
-        {
+    /// <summary>
+    /// initiate roundtrip to external authentication provider
+    /// </summary>
+    [HttpGet]
+    public IActionResult Challenge(string scheme, string returnUrl)
+    {
             if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
 
             // validate returnUrl - either it is a valid OIDC URL or back to a local page
@@ -61,12 +61,12 @@ namespace IdentityServerHost.Quickstart.UI
             return Challenge(props, scheme);
         }
 
-        /// <summary>
-        /// Post processing of external authentication
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> Callback()
-        {
+    /// <summary>
+    /// Post processing of external authentication
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> Callback()
+    {
             // read external identity from the temporary cookie
             var result = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
             if (result?.Succeeded != true)
@@ -139,8 +139,8 @@ namespace IdentityServerHost.Quickstart.UI
             return Redirect(returnUrl);
         }
 
-        private (TestUser user, string provider, string providerUserId, IEnumerable<Claim> claims) FindUserFromExternalProvider(AuthenticateResult result)
-        {
+    private (TestUser user, string provider, string providerUserId, IEnumerable<Claim> claims) FindUserFromExternalProvider(AuthenticateResult result)
+    {
             var externalUser = result.Principal;
 
             // try to determine the unique id of the external user (issued by the provider)
@@ -163,16 +163,16 @@ namespace IdentityServerHost.Quickstart.UI
             return (user, provider, providerUserId, claims);
         }
 
-        private TestUser AutoProvisionUser(string provider, string providerUserId, IEnumerable<Claim> claims)
-        {
+    private TestUser AutoProvisionUser(string provider, string providerUserId, IEnumerable<Claim> claims)
+    {
             var user = _users.AutoProvisionUser(provider, providerUserId, claims.ToList());
             return user;
         }
 
-        // if the external login is OIDC-based, there are certain things we need to preserve to make logout work
-        // this will be different for WS-Fed, SAML2p or other protocols
-        private void ProcessLoginCallback(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
-        {
+    // if the external login is OIDC-based, there are certain things we need to preserve to make logout work
+    // this will be different for WS-Fed, SAML2p or other protocols
+    private void ProcessLoginCallback(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
+    {
             // if the external system sent a session id claim, copy it over
             // so we can use it for single sign-out
             var sid = externalResult.Principal.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
@@ -188,7 +188,6 @@ namespace IdentityServerHost.Quickstart.UI
                 localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = idToken } });
             }
         }
-    }
 }
 
 // using Identity.API.Models;

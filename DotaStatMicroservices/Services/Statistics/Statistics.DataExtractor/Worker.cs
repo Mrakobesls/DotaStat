@@ -70,7 +70,7 @@ public class Worker : BackgroundService
 
     private async Task DoWork()
     {
-        var lastMatches = await _steamHttpClient.GetLast100Matches(LastMatchSeqNum);
+        var lastMatches = await _steamHttpClient.GetNext100Matches(LastMatchSeqNum);
         if (lastMatches is null)
             return;
 

@@ -18,30 +18,30 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServerHost.Quickstart.UI
-{
-    /// <summary>
-    /// This sample controller implements a typical login/logout/provision workflow for local and external accounts.
-    /// The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
-    /// The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
-    /// </summary>
-    [SecurityHeaders]
-    [AllowAnonymous]
-    public class AccountController : Controller
-    {
-        private readonly TestUserStore _users;
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly IClientStore _clientStore;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
-        private readonly IEventService _events;
+namespace IdentityServerHost.Quickstart.UI;
 
-        public AccountController(
-            IIdentityServerInteractionService interaction,
-            IClientStore clientStore,
-            IAuthenticationSchemeProvider schemeProvider,
-            IEventService events,
-            TestUserStore users = null)
-        {
+/// <summary>
+/// This sample controller implements a typical login/logout/provision workflow for local and external accounts.
+/// The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
+/// The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
+/// </summary>
+[SecurityHeaders]
+[AllowAnonymous]
+public class AccountController : Controller
+{
+    private readonly TestUserStore _users;
+    private readonly IIdentityServerInteractionService _interaction;
+    private readonly IClientStore _clientStore;
+    private readonly IAuthenticationSchemeProvider _schemeProvider;
+    private readonly IEventService _events;
+
+    public AccountController(
+        IIdentityServerInteractionService interaction,
+        IClientStore clientStore,
+        IAuthenticationSchemeProvider schemeProvider,
+        IEventService events,
+        TestUserStore users = null)
+    {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
             _users = users ?? new TestUserStore(TestUsers.Users);
@@ -52,12 +52,12 @@ namespace IdentityServerHost.Quickstart.UI
             _events = events;
         }
 
-        /// <summary>
-        /// Entry point into the login workflow
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> Login(string returnUrl)
-        {
+    /// <summary>
+    /// Entry point into the login workflow
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> Login(string returnUrl)
+    {
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
@@ -70,13 +70,13 @@ namespace IdentityServerHost.Quickstart.UI
             // return View(vm);
         }
 
-        /// <summary>
-        /// Handle postback from username/password login
-        /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginInputModel model, string button)
-        {
+    /// <summary>
+    /// Handle postback from username/password login
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginInputModel model, string button)
+    {
             // check if we are in the context of an authorization request
             var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
@@ -85,8 +85,7 @@ namespace IdentityServerHost.Quickstart.UI
             {
                 if (context != null)
                 {
-                    // if the user cancels, send a result back into IdentityServer as if they 
-                    // denied the consent (even if this client does not require consent).
+                    // if the user cancels, send a result back into IdentityServer as if they      // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
                     await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
 
@@ -115,8 +114,7 @@ namespace IdentityServerHost.Quickstart.UI
                     var user = _users.FindByUsername(model.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username, clientId: context?.Client.ClientId));
 
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
+                    // only set explicit expiration here if user chooses "remember me".      // otherwise we rely upon expiration configured in cookie middleware.
                     AuthenticationProperties props = null;
                     if (AccountOptions.AllowRememberLogin && model.RememberLogin)
                     {
@@ -174,12 +172,12 @@ namespace IdentityServerHost.Quickstart.UI
         }
 
         
-        /// <summary>
-        /// Show logout page
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> Logout(string logoutId)
-        {
+    /// <summary>
+    /// Show logout page
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> Logout(string logoutId)
+    {
             // build a model so the logout page knows what to display
             var vm = await BuildLogoutViewModelAsync(logoutId);
 
@@ -193,13 +191,13 @@ namespace IdentityServerHost.Quickstart.UI
             return View(vm);
         }
 
-        /// <summary>
-        /// Handle logout page postback
-        /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout(LogoutInputModel model)
-        {
+    /// <summary>
+    /// Handle logout page postback
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout(LogoutInputModel model)
+    {
             // build a model so the logged out page knows what to display
             var vm = await BuildLoggedOutViewModelAsync(model.LogoutId);
 
@@ -227,18 +225,18 @@ namespace IdentityServerHost.Quickstart.UI
             return View("LoggedOut", vm);
         }
 
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
+    [HttpGet]
+    public IActionResult AccessDenied()
+    {
             return View();
         }
 
 
-        /*****************************************/
-        /* helper APIs for the AccountController */
-        /*****************************************/
-        private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
-        {
+    /*****************************************/
+    /* helper APIs for the AccountController */
+    /*****************************************/
+    private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
+    {
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
@@ -295,16 +293,16 @@ namespace IdentityServerHost.Quickstart.UI
             };
         }
 
-        private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
-        {
+    private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
+    {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
             vm.Username = model.Username;
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }
 
-        private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
-        {
+    private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
+    {
             var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
 
             if (User?.Identity.IsAuthenticated != true)
@@ -327,8 +325,8 @@ namespace IdentityServerHost.Quickstart.UI
             return vm;
         }
 
-        private async Task<LoggedOutViewModel> BuildLoggedOutViewModelAsync(string logoutId)
-        {
+    private async Task<LoggedOutViewModel> BuildLoggedOutViewModelAsync(string logoutId)
+    {
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interaction.GetLogoutContextAsync(logoutId);
 
@@ -364,5 +362,4 @@ namespace IdentityServerHost.Quickstart.UI
 
             return vm;
         }
-    }
 }

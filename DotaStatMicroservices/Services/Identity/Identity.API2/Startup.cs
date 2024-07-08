@@ -12,21 +12,21 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Http;
 
-namespace Identity.API
-{
-    public class Startup
-    {
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
+namespace Identity.API;
 
-        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
-        {
+public class Startup
+{
+    public IWebHostEnvironment Environment { get; }
+    public IConfiguration Configuration { get; }
+
+    public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+    {
             Environment = environment;
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
+    public void ConfigureServices(IServiceCollection services)
+    {
             services.AddControllersWithViews();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -80,8 +80,8 @@ namespace Identity.API
             // });
         }
 
-        public void Configure(IApplicationBuilder app)
-        {
+    public void Configure(IApplicationBuilder app)
+    {
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -98,5 +98,4 @@ namespace Identity.API
                 endpoints.MapDefaultControllerRoute();
             });
         }
-    }
 }

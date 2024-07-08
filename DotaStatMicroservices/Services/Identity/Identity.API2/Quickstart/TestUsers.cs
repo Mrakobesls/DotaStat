@@ -9,14 +9,14 @@ using System.Security.Claims;
 using System.Text.Json;
 using IdentityServer4;
 
-namespace IdentityServerHost.Quickstart.UI
+namespace IdentityServerHost.Quickstart.UI;
+
+public class TestUsers
 {
-    public class TestUsers
+    public static List<TestUser> Users
     {
-        public static List<TestUser> Users
+        get
         {
-            get
-            {
                 var address = new
                 {
                     street_address = "One Hacker Way",
@@ -61,6 +61,5 @@ namespace IdentityServerHost.Quickstart.UI
                     }
                 };
             }
-        }
     }
 }

@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IdentityServerHost.Quickstart.UI
+namespace IdentityServerHost.Quickstart.UI;
+
+public class DiagnosticsViewModel
 {
-    public class DiagnosticsViewModel
+    public DiagnosticsViewModel(AuthenticateResult result)
     {
-        public DiagnosticsViewModel(AuthenticateResult result)
-        {
             AuthenticateResult = result;
 
             if (result.Properties.Items.ContainsKey("client_list"))
@@ -26,7 +26,6 @@ namespace IdentityServerHost.Quickstart.UI
             }
         }
 
-        public AuthenticateResult AuthenticateResult { get; }
-        public IEnumerable<string> Clients { get; } = new List<string>();
-    }
+    public AuthenticateResult AuthenticateResult { get; }
+    public IEnumerable<string> Clients { get; } = new List<string>();
 }

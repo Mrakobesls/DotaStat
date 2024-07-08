@@ -1,28 +1,28 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-namespace Identity.API.Quickstart.Home
-{
-    [SecurityHeaders]
-    [AllowAnonymous]
-    public class HomeController : Controller
-    {
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly IWebHostEnvironment _environment;
-        private readonly ILogger _logger;
+namespace Identity.API.Quickstart.Home;
 
-        public HomeController(
-            IIdentityServerInteractionService interaction,
-            IWebHostEnvironment environment,
-            ILogger<HomeController> logger)
-        {
+[SecurityHeaders]
+[AllowAnonymous]
+public class HomeController : Controller
+{
+    private readonly IIdentityServerInteractionService _interaction;
+    private readonly IWebHostEnvironment _environment;
+    private readonly ILogger _logger;
+
+    public HomeController(
+        IIdentityServerInteractionService interaction,
+        IWebHostEnvironment environment,
+        ILogger<HomeController> logger)
+    {
             _interaction = interaction;
             _environment = environment;
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
+    public IActionResult Index()
+    {
             if (_environment.IsDevelopment())
             {
                 // only show in development
@@ -33,11 +33,11 @@ namespace Identity.API.Quickstart.Home
             return NotFound();
         }
 
-        /// <summary>
-        /// Shows the error page
-        /// </summary>
-        public async Task<IActionResult> Error(string errorId)
-        {
+    /// <summary>
+    /// Shows the error page
+    /// </summary>
+    public async Task<IActionResult> Error(string errorId)
+    {
             var vm = new ErrorViewModel();
 
             // retrieve error details from identityserver
@@ -55,5 +55,4 @@ namespace Identity.API.Quickstart.Home
 
             return View("Error", vm);
         }
-    }
 }

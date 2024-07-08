@@ -1,9 +1,9 @@
-﻿namespace Identity.API.Services
+﻿namespace Identity.API.Services;
+
+public class RedirectService : IRedirectService
 {
-    public class RedirectService : IRedirectService
+    public string ExtractRedirectUriFromReturnUrl(string url)
     {
-        public string ExtractRedirectUriFromReturnUrl(string url)
-        {
             var decodedUrl = System.Net.WebUtility.HtmlDecode(url);
             var results = Regex.Split(decodedUrl, "redirect_uri=");
             if (results.Length < 2)
@@ -25,5 +25,4 @@
 
             return result.Replace("%3A", ":").Replace("%2F", "/").Replace("&", "");
         }
-    }
 }

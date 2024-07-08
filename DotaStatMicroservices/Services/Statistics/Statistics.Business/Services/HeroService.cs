@@ -1,26 +1,27 @@
-﻿using Statistics.Business.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Statistics.Business.Model;
 
-namespace Statistics.Business.Services
+namespace Statistics.Business.Services;
+
+public interface IHeroService
 {
-    public interface IHeroService
-    {
-        public List<Hero> GetAll();
-        public Task EnsureAllExist();
-    }
+    public Task<List<Hero>> GetAllAsync();
+    public Task EnsureAllExist();
+}
 
-    public class HeroService : IHeroService
-    {
-        private readonly DotaStatDbContext _dbContext;
-        private readonly SteamHttpClient _httpClient;
+public class HeroService : IHeroService
+{
+    private readonly DotaStatDbContext _dbContext;
+    private readonly SteamHttpClient _httpClient;
 
-        public HeroService(DotaStatDbContext dbContext, SteamHttpClient httpClient)
-        {
+    public HeroService(DotaStatDbContext dbContext, SteamHttpClient httpClient)
+    {
             _dbContext = dbContext;
             _httpClient = httpClient;
         }
 
-        public async Task EnsureAllExist()
-        {
+    public async Task EnsureAllExist()
+    {
             var dotaHeroes = (await _httpClient.GetHeroes())
                 .Result.Heroes.OrderBy(x => x.Id)
                 .ToArray();
@@ -29,19 +30,21 @@ namespace Statistics.Business.Services
             if (dotaHeroes.Length == localHeroesCount)
                 return;
 
-            _dbContext.Heroes.Truncate();
+            var localHeroes = _dbContext.Heroes.ToArray();
 
+            var newHeroes = dotaHeroes.Select(x => x.Id).Except(localHeroes.Select(x => x.Id));
             _dbContext.Heroes.AddRange(
-                dotaHeroes.Select(
-                    h => new Hero
-                    {
-                        Id = h.Id,
-                        Name = h.LocalizedName
-                    }
-                )
+                dotaHeroes.Where(x => newHeroes.Contains(x.Id))
+                    .Select(
+                        h => new Hero
+                        {
+                            Id = h.Id,
+                            Name = h.LocalizedName
+                        }
+                    )
             );
 
-            using (var transaction = await _dbContext.Database.BeginTransactionAsync())
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
             using (_dbContext.StartIdentityInsert<Hero>())
             {
                 await _dbContext.SaveChangesAsync();
@@ -50,9 +53,8 @@ namespace Statistics.Business.Services
             }
         }
 
-        public List<Hero> GetAll()
-        {
-            return _dbContext.Heroes.ToList();
+    public async Task<List<Hero>> GetAllAsync()
+    {
+            return await _dbContext.Heroes.ToListAsync();
         }
-    }
 }

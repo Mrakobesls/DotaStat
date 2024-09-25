@@ -7,7 +7,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
         "Host": "statistics-api",
-        "Port": 5036
+        "Port": 5020
       }]
     },
     {
@@ -17,7 +17,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
         "Host": "statistics-api",
-        "Port": 5036
+        "Port": 5020
       }]
     },
     

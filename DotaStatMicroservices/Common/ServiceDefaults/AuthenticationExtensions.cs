@@ -28,18 +28,21 @@ public static class AuthenticationExtensions
         }
 
         // prevent from mapping "sub" claim to nameidentifier.
-        JsonWebTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+        // JsonWebTokenHandler.DefaultInboundClaimTypeMap.Remove("sub"); // todo
 
-        services.AddAuthentication().AddJwtBearer(options =>
-        {
-            var identityUrl = identitySection.GetRequiredValue("Url");
-            var audience = identitySection.GetRequiredValue("Audience");
+        services.AddAuthentication()
+            .AddJwtBearer(
+                options =>
+                {
+                    var identityUrl = identitySection.GetRequiredValue("Url");
+                    var audience = identitySection.GetRequiredValue("Audience");
 
-            options.Authority = identityUrl;
-            options.RequireHttpsMetadata = false;
-            options.Audience = audience;
-            options.TokenValidationParameters.ValidateAudience = false;
-        });
+                    options.Authority = identityUrl;
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = audience;
+                    options.TokenValidationParameters.ValidateAudience = false;
+                }
+            );
 
         services.AddAuthorization();
 

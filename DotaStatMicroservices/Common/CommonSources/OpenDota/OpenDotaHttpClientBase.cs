@@ -8,6 +8,6 @@ public abstract class OpenDotaHttpClientBase
     {
         HttpClient = httpClient;
 
-        HttpClient.BaseAddress = new Uri("https://api.opendota.com/api");
+        HttpClient.BaseAddress = new Uri("https://api.opendota.com");
     }
 }

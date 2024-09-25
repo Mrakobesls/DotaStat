@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  api-gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5050
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5050
+    ports:
+      - "5050:5050"
+
   identity-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -14,28 +22,25 @@ services:
     ports:
       - "5041:5041"
 
+  rabbitmq:
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   statistics-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:5036
-      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5036
+      - ASPNETCORE_URLS=http://0.0.0.0:5020
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
       - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
       - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
       - OrchestratorType=${ORCHESTRATOR_TYPE}
       - PATH_BASE=/statistics
     ports:
-      - "5036:5036"
-   
+      - "5020:5020"
+
 #  web:
 ##    environment:
 ##      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
 #    ports:
 #      -  "5035:80"
-        
-  api-gateway:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:5050
-      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5050
-    ports:
-      - "5050:5050"

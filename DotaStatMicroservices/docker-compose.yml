@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: ApiGateways/Web.ApiGateway/Dockerfile
+    depends_on:
+      - statistics-api
+
   identity-api:
     container_name: identity-api
     build:
@@ -9,24 +17,19 @@ services:
 #    depends_on:
 #      - sqldata
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+
   statistics-api:
     container_name: statistics-api
     build:
       context: .
       dockerfile: Services/Statistics/Statistics.API/Dockerfile
-#    depends_on:
-#      - basketdata
-#      - identity-api
-#      - rabbitmq
-
-  api-gateway:
-    container_name: api-gateway
-    build:
-      context: .
-      dockerfile: ApiGateways/Web.ApiGateway/Dockerfile
     depends_on:
-      - statistics-api
-#
+      - rabbitmq
+      - identity-api
+
 #  web:
 #    container_name: web
 #    build:

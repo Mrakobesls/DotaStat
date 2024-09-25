@@ -3,27 +3,26 @@ using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// builder.AddServiceDefaults();
-
-// Add services to the container.
+builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        // URL of our identity server
-        options.Authority = "https://identity-api:5041";
-        // HTTPS required for the authority (defaults to true but disabled for development).
-        options.RequireHttpsMetadata = false;
-        // the name of this API - note: matches the API resource name configured above
-        options.Audience = "statistics";
-    });
+// builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddSwaggerGen();
+// builder.Services.AddAuthentication("Bearer")
+//     .AddJwtBearer("Bearer", options =>
+//     {
+//         // URL of our identity server
+//         options.Authority = "https://identity-api:5041";
+//         // HTTPS required for the authority (defaults to true but disabled for development).
+//         options.RequireHttpsMetadata = false;
+//         // the name of this API - note: matches the API resource name configured above
+//         options.Audience = "statistics";
+//     });
 
 var app = builder.Build();
 
+app.UseServiceDefaults();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

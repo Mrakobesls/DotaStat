@@ -51,63 +51,65 @@ public static class EventBusExtensions
             return builder;
         }
 
-        if (string.Equals(eventBusSection["ProviderName"], "ServiceBus", StringComparison.OrdinalIgnoreCase))
+        switch (eventBusSection["ProviderName"])
         {
-            builder.Services.AddSingleton<IServiceBusPersistentConnection>(sp =>
-            {
-                var serviceBusConnectionString = builder.Configuration.GetRequiredConnectionString("EventBus");
-
-                return new DefaultServiceBusPersistentConnection(serviceBusConnectionString);
-            });
-
-            builder.Services.AddSingleton<IEventBus, EventBusServiceBus>(sp =>
-            {
-                var serviceBusPersisterConnection = sp.GetRequiredService<IServiceBusPersistentConnection>();
-                var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
-                var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
-                var subscriptionName = eventBusSection.GetRequiredValue("SubscriptionClientName");
-
-                return new EventBusServiceBus(serviceBusPersisterConnection, logger,
-                    eventBusSubscriptionsManager, sp, subscriptionName);
-            });
-        }
-        else
-        {
-            builder.Services.AddSingleton<IRabbitMqPersistentConnection>(sp =>
-            {
-                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-                var factory = new ConnectionFactory
+            case "RabbitMQ":
+                builder.Services.AddSingleton<IRabbitMqPersistentConnection>(sp =>
                 {
-                    HostName = builder.Configuration.GetRequiredConnectionString("EventBus"),
-                    DispatchConsumersAsync = true
-                };
+                    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
 
-                if (!string.IsNullOrEmpty(eventBusSection["UserName"]))
+                    var factory = new ConnectionFactory
+                    {
+                        HostName = eventBusSection["Host"],
+                        Port = int.Parse(eventBusSection["Port"]!),
+                        DispatchConsumersAsync = true
+                    };
+
+                    if (!string.IsNullOrEmpty(eventBusSection["UserName"]))
+                    {
+                        factory.UserName = eventBusSection["UserName"];
+                    }
+
+                    if (!string.IsNullOrEmpty(eventBusSection["Password"]))
+                    {
+                        factory.Password = eventBusSection["Password"];
+                    }
+
+                    var retryCount = eventBusSection.GetValue("RetryCount", 5);
+
+                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+                });
+
+                builder.Services.AddSingleton<IEventBus, EventBusRabbitMq>(sp =>
                 {
-                    factory.UserName = eventBusSection["UserName"];
-                }
+                    var subscriptionClientName = eventBusSection.GetRequiredValue("SubscriptionClientName");
+                    var rabbitMqPersistentConnection = sp.GetRequiredService<IRabbitMqPersistentConnection>();
+                    var logger = sp.GetRequiredService<ILogger<EventBusRabbitMq>>();
+                    var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                    var retryCount = eventBusSection.GetValue("RetryCount", 5);
 
-                if (!string.IsNullOrEmpty(eventBusSection["Password"]))
+                    return new EventBusRabbitMq(rabbitMqPersistentConnection, logger, sp, eventBusSubscriptionsManager, subscriptionClientName, retryCount);
+                });
+                break;
+            case "ServiceBus":
+                builder.Services.AddSingleton<IServiceBusPersistentConnection>(sp =>
                 {
-                    factory.Password = eventBusSection["Password"];
-                }
+                    var serviceBusConnectionString = builder.Configuration.GetRequiredConnectionString("EventBus");
 
-                var retryCount = eventBusSection.GetValue("RetryCount", 5);
+                    return new DefaultServiceBusPersistentConnection(serviceBusConnectionString);
+                });
 
-                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-            });
+                builder.Services.AddSingleton<IEventBus, EventBusServiceBus>(sp =>
+                {
+                    var serviceBusPersisterConnection = sp.GetRequiredService<IServiceBusPersistentConnection>();
+                    var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
+                    var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                    var subscriptionName = eventBusSection.GetRequiredValue("SubscriptionClientName");
 
-            builder.Services.AddSingleton<IEventBus, EventBusRabbitMq>(sp =>
-            {
-                var subscriptionClientName = eventBusSection.GetRequiredValue("SubscriptionClientName");
-                var rabbitMqPersistentConnection = sp.GetRequiredService<IRabbitMqPersistentConnection>();
-                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMq>>();
-                var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
-                var retryCount = eventBusSection.GetValue("RetryCount", 5);
-
-                return new EventBusRabbitMq(rabbitMqPersistentConnection, logger, sp, eventBusSubscriptionsManager, subscriptionClientName, retryCount);
-            });
+                    return new EventBusServiceBus(serviceBusPersisterConnection, logger,
+                        eventBusSubscriptionsManager, sp, subscriptionName);
+                });
+                break;
         }
 
         builder.Services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();

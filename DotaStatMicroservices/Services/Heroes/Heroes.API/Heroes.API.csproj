@@ -18,4 +18,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Common\ServiceDefaults\ServiceDefaults.csproj" />
+      <ProjectReference Include="..\..\..\EventBus\EventBus\EventBus.csproj" />
+    </ItemGroup>
+
 </Project>

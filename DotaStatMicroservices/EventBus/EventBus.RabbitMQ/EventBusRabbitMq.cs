@@ -280,13 +280,16 @@ public class EventBusRabbitMq : IEventBus, IDisposable
                 else
                 {
                     var handler = scope.ServiceProvider.GetService(subscription.HandlerType);
-                    if (handler == null) continue;
+                    if (handler == null)
+                    {
+                        continue;
+                    }
                     var eventType = _subsManager.GetEventTypeByName(eventName);
                     var integrationEvent = JsonSerializer.Deserialize(message, eventType, JsonCaseInsensitiveOptions);
                     var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
 
                     await Task.Yield();
-                    await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { integrationEvent });
+                    await (Task)concreteType.GetMethod("Handle").Invoke(handler, [integrationEvent]);
                 }
             }
         }

@@ -1,0 +1,35 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/{everything}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "statistics-api",
+        "Port": 5020
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/statistics/{everything}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "statistics-api",
+        "Port": 5020
+      }]
+    },
+    
+    {
+      "UpstreamPathTemplate": "/identity/{everything}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "identity-api",
+        "Port": 5041
+      }]
+    }
+  ]
+}

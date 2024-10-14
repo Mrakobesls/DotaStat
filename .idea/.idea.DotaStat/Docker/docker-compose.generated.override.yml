@@ -1,0 +1,58 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.4"
+services:
+  api-gateway:
+    build:
+      context: "E:\\Projects\\DotStat\\DotaStatMicroservices"
+      dockerfile: "ApiGateways/Web.ApiGateway/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Web.ApiGateway.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "web.apigateway:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\remi0\\.nuget\\packages:/root/.nuget/packages"
+    - "E:\\Projects\\DotStat\\DotaStatMicroservices\\ApiGateways\\Web.ApiGateway:/app:rw"
+    - "E:\\Projects\\DotStat\\DotaStatMicroservices:/src:rw"
+    working_dir: "/app"
+  identity-api:
+    build:
+      context: "E:\\Projects\\DotStat\\DotaStatMicroservices"
+      dockerfile: "Services/Identity/Identity.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Identity.API.dll"
+    environment:
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/Identity.API.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "identity.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\remi0\\.nuget\\packages:/root/.nuget/packages"
+    - "E:\\Projects\\DotStat\\DotaStatMicroservices\\Services\\Identity\\Identity.API:/app:rw"
+    - "E:\\Projects\\DotStat\\DotaStatMicroservices:/src:rw"
+    working_dir: "/app"
+  statistics-api:
+    build:
+      context: "E:\\Projects\\DotStat\\DotaStatMicroservices"
+      dockerfile: "Services/Statistics/Statistics.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Statistics.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "statistics.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\remi0\\.nuget\\packages:/root/.nuget/packages"
+    - "E:\\Projects\\DotStat\\DotaStatMicroservices\\Services\\Statistics\\Statistics.API:/app:rw"
+    - "E:\\Projects\\DotStat\\DotaStatMicroservices:/src:rw"
+    working_dir: "/app"

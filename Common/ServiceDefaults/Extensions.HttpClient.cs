@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ServiceDefaults;
 
-public static class HttpClientExtensions
+public static partial class Extensions
 {
     public static IHttpClientBuilder AddAuthToken(this IHttpClientBuilder builder)
     {

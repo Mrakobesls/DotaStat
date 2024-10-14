@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace ServiceDefaults;
 
-public static class AuthenticationExtensions
+public static partial class Extensions
 {
     public static IServiceCollection AddDefaultAuthentication(this IHostApplicationBuilder builder)
     {

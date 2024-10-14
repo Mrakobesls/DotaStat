@@ -12,22 +12,12 @@ var app = builder.Build();
 app.UseServiceDefaults();
 
 app.UseRouting()
-    .UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{action}");
-    });
-// app.MapControllers()
-//     .WithOpenApi();
-// app.MapGet(
-//         "/Ping",
-//         () =>
-//         {
-//             return DateTime.Now;
-//         }
-//     )
-//     .WithName("Ping")
-//     .WithOpenApi();
+    .UseEndpoints(
+        endpoints =>
+        {
+            endpoints.MapControllerRoute(name: "default", pattern: "{action}")
+                .WithOpenApi();
+        }
+    );
 
 app.Run();

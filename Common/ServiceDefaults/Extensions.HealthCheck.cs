@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace ServiceDefaults;
 
-public static class HealthCheckExtensions
+public static partial class Extensions
 {
     public static IHostApplicationBuilder AddDefaultHealthChecks(this IHostApplicationBuilder builder)
     {

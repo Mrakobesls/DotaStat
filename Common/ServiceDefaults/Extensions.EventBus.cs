@@ -1,8 +1,6 @@
-﻿using System;
-using EventBus;
+﻿using EventBus;
 using EventBus.Abstractions;
 using EventBus.RabbitMQ;
-using EventBus.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,15 +9,10 @@ using RabbitMQ.Client;
 
 namespace ServiceDefaults;
 
-public static class EventBusExtensions
+public static partial class Extensions
 {
     public static IHostApplicationBuilder AddEventBus(this IHostApplicationBuilder builder)
     {
-        //  {
-        //    "ConnectionStrings": {
-        //      "EventBus": "..."
-        //    },
-
         // {
         //   "EventBus": {
         //     "ProviderName": "ServiceBus | RabbitMQ",
@@ -61,7 +54,7 @@ public static class EventBusExtensions
                     var factory = new ConnectionFactory
                     {
                         HostName = eventBusSection["Host"],
-                        Port = int.Parse(eventBusSection["Port"]!),
+                        Port = eventBusSection.GetValue<int>("Port"),
                         DispatchConsumersAsync = true
                     };
 
@@ -91,25 +84,26 @@ public static class EventBusExtensions
                     return new EventBusRabbitMq(rabbitMqPersistentConnection, logger, sp, eventBusSubscriptionsManager, subscriptionClientName, retryCount);
                 });
                 break;
-            case "ServiceBus":
-                builder.Services.AddSingleton<IServiceBusPersistentConnection>(sp =>
-                {
-                    var serviceBusConnectionString = builder.Configuration.GetRequiredConnectionString("EventBus");
-
-                    return new DefaultServiceBusPersistentConnection(serviceBusConnectionString);
-                });
-
-                builder.Services.AddSingleton<IEventBus, EventBusServiceBus>(sp =>
-                {
-                    var serviceBusPersisterConnection = sp.GetRequiredService<IServiceBusPersistentConnection>();
-                    var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
-                    var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
-                    var subscriptionName = eventBusSection.GetRequiredValue("SubscriptionClientName");
-
-                    return new EventBusServiceBus(serviceBusPersisterConnection, logger,
-                        eventBusSubscriptionsManager, sp, subscriptionName);
-                });
-                break;
+            // TODO Implement ServiceBus
+            // case "ServiceBus":
+            //     builder.Services.AddSingleton<IServiceBusPersistentConnection>(sp =>
+            //     {
+            //         var serviceBusConnectionString = builder.Configuration.GetRequiredConnectionString("EventBus");
+            //
+            //         return new DefaultServiceBusPersistentConnection(serviceBusConnectionString);
+            //     });
+            //
+            //     builder.Services.AddSingleton<IEventBus, EventBusServiceBus>(sp =>
+            //     {
+            //         var serviceBusPersisterConnection = sp.GetRequiredService<IServiceBusPersistentConnection>();
+            //         var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
+            //         var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+            //         var subscriptionName = eventBusSection.GetRequiredValue("SubscriptionClientName");
+            //
+            //         return new EventBusServiceBus(serviceBusPersisterConnection, logger,
+            //             eventBusSubscriptionsManager, sp, subscriptionName);
+            //     });
+            //     break;
         }
 
         builder.Services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();

@@ -21,11 +21,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Common\CommonSources\CommonSources.csproj" />
+      <ProjectReference Include="..\Patch.Business\Patch.Business.csproj" />
       <ProjectReference Include="..\Patch.Data\Patch.Data.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="IntegrationEvents\EventHandlers\" />
     </ItemGroup>
 
 </Project>

@@ -40,21 +40,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statistics.Business", "Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statistics.DataExtractor", "Services\Statistics\Statistics.DataExtractor\Statistics.DataExtractor.csproj", "{309D06D5-F284-4044-9811-34469C449CD3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Heroes", "Heroes", "{CB07A142-3894-4675-9ECD-8AAD62A0EF5C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hero", "Hero", "{CB07A142-3894-4675-9ECD-8AAD62A0EF5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heroes.API", "Services\Heroes\Heroes.API\Heroes.API.csproj", "{70CA51F7-803D-4CA5-BD65-D4FE76E85438}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hero.API", "Services\Heroes\Hero.API\Hero.API.csproj", "{70CA51F7-803D-4CA5-BD65-D4FE76E85438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heroes.Business", "Services\Heroes\Heroes.Business\Heroes.Business.csproj", "{4E35DF57-8BA3-44A6-A3DC-F212D7A4D5BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hero.Business", "Services\Heroes\Hero.Business\Hero.Business.csproj", "{4E35DF57-8BA3-44A6-A3DC-F212D7A4D5BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonSources", "Common\CommonSources\CommonSources.csproj", "{6A9BD6D1-5E39-458F-8228-ED900F50BCE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patch", "Patch", "{8B252842-8067-46E3-9DE7-C4A8B9ADA38A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{CB54D7C0-6B75-4366-86D0-22DB1F62C694}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item", "Item", "{CB54D7C0-6B75-4366-86D0-22DB1F62C694}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Items.API", "Services\Items\Items.API\Items.API.csproj", "{35D26792-46A8-4911-B4A8-3E6AE7C0FEFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Item.API", "Services\Items\Item.API\Item.API.csproj", "{35D26792-46A8-4911-B4A8-3E6AE7C0FEFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Items.Business", "Services\Items\Items.Business\Items.Business.csproj", "{55C41007-6322-486E-887B-87F40E1912B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Item.Business", "Services\Items\Item.Business\Item.Business.csproj", "{55C41007-6322-486E-887B-87F40E1912B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patch.API", "Services\Patch\Patch.API\Patch.API.csproj", "{5E7CF1B8-7655-4E93-8155-BDDA19CCE095}"
 EndProject
@@ -75,6 +75,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.ServiceBus", "EventBus\EventBus.ServiceBus\EventBus.ServiceBus.csproj", "{7A02B8CE-B8FC-45C3-B89E-15636B9C22D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLogEF", "EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{1D296212-9BED-4F7E-9660-35FEBE0F7604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hero.Data", "Services\Heroes\Hero.Data\Hero.Data.csproj", "{4A233E22-78DE-494B-BFBD-C126C9D70B8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +179,10 @@ Global
 		{1D296212-9BED-4F7E-9660-35FEBE0F7604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D296212-9BED-4F7E-9660-35FEBE0F7604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D296212-9BED-4F7E-9660-35FEBE0F7604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A233E22-78DE-494B-BFBD-C126C9D70B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A233E22-78DE-494B-BFBD-C126C9D70B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A233E22-78DE-494B-BFBD-C126C9D70B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A233E22-78DE-494B-BFBD-C126C9D70B8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,6 +216,7 @@ Global
 		{33DF041C-0363-4A16-9796-0F1EF6ADC1CD} = {61DFDD30-66E9-4F1E-98C5-104BAEBDD2FD}
 		{7A02B8CE-B8FC-45C3-B89E-15636B9C22D1} = {61DFDD30-66E9-4F1E-98C5-104BAEBDD2FD}
 		{1D296212-9BED-4F7E-9660-35FEBE0F7604} = {61DFDD30-66E9-4F1E-98C5-104BAEBDD2FD}
+		{4A233E22-78DE-494B-BFBD-C126C9D70B8D} = {CB07A142-3894-4675-9ECD-8AAD62A0EF5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D604B7BB-D8CB-487C-BC78-15DCE3D337E8}

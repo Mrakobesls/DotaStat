@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -30,7 +29,7 @@ public static class SteamExtensions
     {
         builder.Services.AddHttpContextAccessor();
 
-        builder.Services.TryAddTransient<HttpSteamClientKeyHandler>();
+        builder.Services.AddTransient<HttpSteamClientKeyHandler>();
 
         builder.AddHttpMessageHandler<HttpSteamClientKeyHandler>();
 
@@ -42,8 +41,11 @@ public static class SteamExtensions
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SteamOptions _steamOptions;
 
-
-        public HttpSteamClientKeyHandler(IHttpContextAccessor httpContextAccessor, IOptions<SteamOptions> steamOptions, HttpMessageHandler innerHandler) : base(innerHandler)
+        public HttpSteamClientKeyHandler(
+            IHttpContextAccessor httpContextAccessor,
+            IOptions<SteamOptions> steamOptions
+            //, HttpMessageHandler innerHandler
+        )// : base(innerHandler)
         {
             _httpContextAccessor = httpContextAccessor;
             _steamOptions = steamOptions.Value;

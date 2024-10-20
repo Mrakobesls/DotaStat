@@ -1,4 +1,7 @@
-﻿using Patch.Data.Repository;
+﻿using EventBus.Abstractions;
+using Patch.Business.IntegrationEvents;
+using Patch.Business.IntegrationEvents.Events;
+using Patch.Data.Repository;
 using Patch.Data.Types;
 
 namespace Patch.Business.Services;
@@ -14,12 +17,19 @@ public class PatchService : IPatchService
     private readonly OpenDotaHttpClient _openDotaHttpClient;
     private readonly IDataPatchCommands _dataPatchCommands;
     private readonly IDataPatchQueries _dataPatchQueries;
+    private readonly IIntegrationEventService _integrationEventService;
 
-    public PatchService(OpenDotaHttpClient openDotaHttpClient, IDataPatchCommands dataPatchCommands, IDataPatchQueries dataPatchQueries)
+    public PatchService(
+        OpenDotaHttpClient openDotaHttpClient,
+        IDataPatchCommands dataPatchCommands,
+        IDataPatchQueries dataPatchQueries,
+        IIntegrationEventService integrationEventService
+    )
     {
         _openDotaHttpClient = openDotaHttpClient;
         _dataPatchCommands = dataPatchCommands;
         _dataPatchQueries = dataPatchQueries;
+        _integrationEventService = integrationEventService;
     }
 
     public async Task EnsureLatestPatch()
@@ -39,13 +49,17 @@ public class PatchService : IPatchService
                 DateTime = DateTime.UtcNow
             }
         );
+        await _integrationEventService.Publish(
+            new PatchHistoryUpdatedIntegrationEvent([new IntegrationEvents.Events.Patch(latestPatch, DateTime.UtcNow)])
+        );
     }
 
     public async Task EnsurePatchHistory()
     {
         var namedPatches = await _openDotaHttpClient.GetNamedPatches(); // with letter
-        var localPatchesCount = await _dataPatchQueries.GetPatchesCount();
-        if (namedPatches.Count() <= localPatchesCount)
+        var currentPatch = await _dataPatchQueries.GetCurrentPatch();
+        // already done initial work before
+        if (namedPatches.Last() == currentPatch)
         {
             return;
         }
@@ -55,9 +69,7 @@ public class PatchService : IPatchService
         var fullPatchHistory = patchHistory.Select(
                 x =>
                 {
-                    var patches = namedPatches.Where(
-                            y => y.StartsWith(x.Name)
-                        )
+                    var patches = namedPatches.Where(y => y.StartsWith(x.Name))
                         .Select(
                             y => new PatchCreate
                             {
@@ -82,10 +94,18 @@ public class PatchService : IPatchService
 
         var localPatches = await _dataPatchQueries.GetPatches();
         var patchHistoryDifference = fullPatchHistory.ExceptBy(
-            localPatches.Select(x => x.Name),
-            x => x.Name
-        );
+                localPatches.Select(x => x.Name),
+                x => x.Name
+            )
+            .ToArray();
 
         await _dataPatchCommands.AddPatchHistory(patchHistoryDifference);
+
+        await _integrationEventService.Publish(
+            new PatchHistoryUpdatedIntegrationEvent(
+                patchHistoryDifference.Select(x => new IntegrationEvents.Events.Patch(x.Name, x.DateTime))
+                    .ToArray()
+            )
+        );
     }
 }

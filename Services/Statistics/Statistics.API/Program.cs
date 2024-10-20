@@ -1,11 +1,16 @@
+using EventBus.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using ServiceDefaults;
+using Statistics.Business.IntegrationEvents.EventHandlers;
+using Statistics.Business.IntegrationEvents.Events;
+using Statistics.Business.IOC;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
+builder.RegisterStatisticsBusiness();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();
@@ -34,6 +39,9 @@ if (app.Environment.IsDevelopment())
 
 // app.UseAuthentication();
 // app.UseServiceDefaults();
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+
+eventBus.Subscribe<NewHeroesReleasedIntegrationEvent, NewHeroesReleasedIntegrationEventHandler>();
 
 app.MapGet("/TextOk", () => "Really works!");
 app.MapGet("/Text", [Authorize]() => "Really works!");

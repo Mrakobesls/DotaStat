@@ -9,17 +9,10 @@ public interface IDbConnectionFactory
     SqlConnection Create();
 }
 
-public class DbConnectionFactory : IDbConnectionFactory
+public class DbConnectionFactory(string connectionString) : IDbConnectionFactory
 {
-    private string ConnectionString { get; set; }
-
-    public DbConnectionFactory(IConfiguration configuration)
-    {
-        ConnectionString = configuration.GetRequiredConnectionString("DotaStat.Patch");
-    }
-
     public SqlConnection Create()
     {
-        return new SqlConnection(ConnectionString);
+        return new SqlConnection(connectionString);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Statistics.Business.Model;
+﻿using Statistics.Business.Infrastructure;
+using Statistics.Business.Infrastructure.Models;
 using Statistics.Business.Types;
 
 namespace Statistics.Business.Services;
@@ -16,9 +17,9 @@ public interface IWeekPatchService
 
 public class WeekPatchService : IWeekPatchService
 {
-    private readonly DotaStatDbContext _dbContext;
+    private readonly StatisticsDbContext _dbContext;
 
-    public WeekPatchService(DotaStatDbContext dbContext)
+    public WeekPatchService(StatisticsDbContext dbContext)
     {
             _dbContext = dbContext;
         }

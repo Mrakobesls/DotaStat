@@ -5,7 +5,7 @@ namespace Patch.Data.Repository;
 public interface IDataPatchQueries
 {
     Task<string> GetCurrentPatch();
-    Task<IEnumerable<Model.Patch>> GetPatches();
+    Task<IEnumerable<Models.Patch>> GetPatches();
     Task<int> GetPatchesCount();
 }
 
@@ -22,20 +22,20 @@ public class DataPatchQueries : IDataPatchQueries
     {
         await using var dbConnection = _dbConnectionFactory.Create();
 
-        return (await dbConnection.QueryFirstAsync<Model.Patch>(
+        return (await dbConnection.QueryFirstAsync<Models.Patch>(
             """
             SELECT TOP 1 *
             FROM Patch
-            ORDER BY [DateTime] DESC
+            ORDER BY [DateTime] DESC, [Name] DESC
             """
         )).Name;
     }
 
-    public async Task<IEnumerable<Model.Patch>> GetPatches()
+    public async Task<IEnumerable<Models.Patch>> GetPatches()
     {
         await using var dbConnection = _dbConnectionFactory.Create();
 
-        return await dbConnection.QueryAsync<Model.Patch>(
+        return await dbConnection.QueryAsync<Models.Patch>(
             """
             SELECT *
             FROM Patch

@@ -7,8 +7,8 @@ using Quartz;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.RegisterPatchData();
 builder.RegisterPatchBusiness();
+builder.RegisterPatchData();
 
 // builder.Services.AddHostedService<Worker>();
 builder.Services.AddQuartz(
@@ -19,9 +19,9 @@ builder.Services.AddQuartz(
         var ensureLastPatchJobKey = new JobKey("Patch.Observer.EnsureLastPatchJob");
         q.AddJob<EnsureLastPatchJob>(options => options.WithIdentity(ensureLastPatchJobKey));
 
-        q.AddTrigger(options => options.WithIdentity("Patch.Observer.ImmediateTrigger")
-            .ForJob(ensureLastPatchJobKey)
-            .StartNow());
+        // q.AddTrigger(options => options.WithIdentity("Patch.Observer.ImmediateTrigger")
+        //     .ForJob(ensureLastPatchJobKey)
+        //     .StartNow());
 
         q.AddTrigger(options => options.WithIdentity("Patch.Observer.IntervalTrigger")
             .ForJob(ensureLastPatchJobKey)

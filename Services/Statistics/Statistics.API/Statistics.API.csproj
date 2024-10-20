@@ -23,5 +23,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Common\ServiceDefaults\ServiceDefaults.csproj" />
+      <ProjectReference Include="..\Statistics.Business\Statistics.Business.csproj" />
     </ItemGroup>
 </Project>

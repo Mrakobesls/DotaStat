@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Common\CommonSources\CommonSources.csproj" />
+      <ProjectReference Include="..\..\..\Common\ServiceDefaults\ServiceDefaults.csproj" />
+      <ProjectReference Include="..\..\..\EventBus\EventBus\EventBus.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.35" />
+      <PackageReference Include="dbup-core" Version="5.0.87" />
+      <PackageReference Include="dbup-sqlserver" Version="5.0.41" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+</Project>

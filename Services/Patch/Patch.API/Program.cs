@@ -1,11 +1,14 @@
-using Patch.API.IntegrationEvents;
+using Patch.Business.IOC;
+using Patch.Data.IOC;
 using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.Services.AddControllers();
-builder.Services.AddTransient<IPatchIntegrationEventService, PatchIntegrationEventService>();
+
+builder.RegisterPatchBusiness();
+builder.RegisterPatchData();
 
 var app = builder.Build();
 

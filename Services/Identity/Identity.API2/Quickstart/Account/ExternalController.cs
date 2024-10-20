@@ -60,7 +60,8 @@ public class ExternalController : Controller
             //     throw new Exception("invalid return URL");
             // }
             
-            // start challenge and roundtrip the return URL and scheme      var props = new AuthenticationProperties
+            // start challenge and roundtrip the return URL and scheme
+            var props = new AuthenticationProperties
             {
                 RedirectUri = Url.Action(nameof(Callback)), 
                 Items =

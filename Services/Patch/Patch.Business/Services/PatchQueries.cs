@@ -7,17 +7,10 @@ public interface IPatchQueries
     Task<string> GetCurrentPatch();
 }
 
-public class PatchQueries : IPatchQueries
+public class PatchQueries(IDataPatchQueries dataPatchQueries) : IPatchQueries
 {
-    private IDataPatchQueries _dataPatchQueries;
-
-    public PatchQueries(IDataPatchQueries dataPatchQueries)
-    {
-        _dataPatchQueries = dataPatchQueries;
-    }
-
     public async Task<string> GetCurrentPatch()
     {
-        return await _dataPatchQueries.GetCurrentPatch();
+        return await dataPatchQueries.GetCurrentPatch();
     }
 }

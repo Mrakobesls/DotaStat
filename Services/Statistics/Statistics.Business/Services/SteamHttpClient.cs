@@ -10,8 +10,6 @@ public class SteamHttpClient(HttpClient httpClient) : SteamHttpClientBase(httpCl
 
     private const string GetLastMatchUri = "IDOTA2Match_570/GetMatchHistory/v001/?min_players=10&matches_requested=1";
 
-    private const string GetHeroesUri = "IEconDOTA2_570/GetHeroes/v1/?language=English";
-
     #region MatchesRequest
 
     public async Task<LastMatchesRequest> GetNext100Matches(string lastMatchSeqNum)
@@ -31,19 +29,6 @@ public class SteamHttpClient(HttpClient httpClient) : SteamHttpClientBase(httpCl
 
         return JsonConvert.DeserializeObject<LastMatchesRequest>(json)!.Result.Matches.First()
             .MatchSeqNum.ToString();
-    }
-
-    #endregion
-
-    #region HeroesRequest
-
-    public async Task<HeroesRequest> GetHeroes()
-    {
-        // return (await _httpClient.GetFromJsonAsync<HeroesRequest>(GetHeroesUri))!;
-        var heroes = await HttpClient.GetAsync(GetHeroesUri);
-        var json = await heroes.Content.ReadAsStringAsync();
-
-        return JsonConvert.DeserializeObject<HeroesRequest>(json)!;
     }
 
     #endregion

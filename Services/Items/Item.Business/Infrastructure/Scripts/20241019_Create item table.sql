@@ -1,4 +1,4 @@
 ﻿CREATE TABLE Item (
-    Id INT CONSTRAINT [PK_Id] PRIMARY KEY IDENTITY(1,1),
+    Id INT CONSTRAINT [PK_Id] PRIMARY KEY,
     [Name] nvarchar(50)
 )

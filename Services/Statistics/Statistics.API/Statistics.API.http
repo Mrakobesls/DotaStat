@@ -1,0 +1,4 @@
+﻿@Statistics.API_HostAddress = http://statistics-api:5020
+
+GET {{Statistics.API_HostAddress}}/TextOk
+Accept: application/json

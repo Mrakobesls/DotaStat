@@ -61,7 +61,7 @@ public static partial class Extensions
             .WithMetrics(
                 metrics =>
                 {
-                    // Uncomment the following line to enable the Prometheus endpoint
+                    // TODO enable the Prometheus endpoint
                     //metrics.AddPrometheusExporter();
                 }
             );

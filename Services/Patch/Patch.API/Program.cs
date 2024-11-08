@@ -1,4 +1,5 @@
 using Patch.Business.IOC;
+using Patch.Data;
 using Patch.Data.IOC;
 using ServiceDefaults;
 
@@ -22,5 +23,8 @@ app.UseRouting()
                 .WithOpenApi();
         }
     );
+
+app.Services.GetRequiredService<DatabaseInitializer>()
+    .Initialize();
 
 app.Run();

@@ -7,13 +7,15 @@ public class OpenDotaHttpClient(HttpClient httpClient) : OpenDotaHttpClientBase(
 {
     private const string Items = "api/constants/item_ids";
 
-    public async Task<Items> GetItems()
+    public async Task<Item[]> GetItems()
     {
         var patchHistoryResponse = await HttpClient.GetAsync(Items);
         var json = await patchHistoryResponse.Content.ReadAsStringAsync();
 
-        return JsonConvert.DeserializeObject<Items>(json)!;
+        return JsonConvert.DeserializeObject<Dictionary<string, string>>(json)!
+            .Select(x => new Item(int.Parse(x.Key), x.Value))
+            .ToArray();
     }
 }
 
-public record Items((int Id, string Name)[] Data);
+public record Item(int Id, string Name);

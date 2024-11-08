@@ -1,6 +1,6 @@
-﻿namespace Item.Business.Infrastructure.Models;
+﻿namespace Statistics.Business.Types;
 
-public class Patch
+public class Item
 {
     public int Id { get; set; }
     public required string Name { get; set; }

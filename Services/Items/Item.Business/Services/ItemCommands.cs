@@ -22,11 +22,11 @@ public class ItemCommands(
         var dbConnection = dbConnectionFactory.Create();
 
         var items = (await steamHttpClient.GetItems())
-            .Data.ToArray();
+            .ToArray();
 
-        var localHeroes = await itemQueries.GetAllAsync();
+        var localItems = await itemQueries.GetAllAsync();
 
-        var newItems = items.ExceptBy(localHeroes.Select(x => x.Id), x => x.Id)
+        var newItems = items.ExceptBy(localItems.Select(x => x.Id), x => x.Id)
             .Select(
                 x => new Types.Item
                 {
@@ -43,9 +43,10 @@ public class ItemCommands(
 
         await dbConnection.ExecuteAsync(
             """
+            -- noinspection SqlResolveForFile @ variable/"@Id"
             -- noinspection SqlResolveForFile @ variable/"@Name"
             INSERT INTO Item (Id, [Name])
-            VALUES (@Name)
+            VALUES (@Id, @Name)
             """,
             newItems
         );

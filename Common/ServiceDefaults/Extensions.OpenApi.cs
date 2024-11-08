@@ -50,7 +50,7 @@ public static partial class Extensions
                     {
                         Title = document.GetRequiredValue("Title"),
                         Version = version,
-                        Description = document.GetRequiredValue("Description")
+                        Description = document.GetValue<string>("Description") ?? ""
                     }
                 );
 
@@ -118,7 +118,7 @@ public static partial class Extensions
             {
                 // {
                 //   "OpenApi": {
-                //     "Endpoint: {
+                //     "Endpoint": {
                 //         "Name":
                 //     },
                 //     "Auth": {

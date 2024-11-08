@@ -15,6 +15,8 @@ var app = builder.Build();
 
 app.UseServiceDefaults();
 
+app.MapGet("/TextOk", () => "Works!");
+
 var eventBus = app.Services.GetRequiredService<IEventBus>();
 eventBus.Subscribe<PatchHistoryUpdatedIntegrationEvent, PatchHistoryUpdatedIntegrationEventHandler>();
 

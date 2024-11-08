@@ -4,9 +4,11 @@ using Patch.Data;
 using Patch.Data.IOC;
 using Patch.Observer.Jobs;
 using Quartz;
+using ServiceDefaults;
 
 var builder = Host.CreateApplicationBuilder(args);
 
+builder.AddEventBus();
 builder.RegisterPatchBusiness();
 builder.RegisterPatchData();
 

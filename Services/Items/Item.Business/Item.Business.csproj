@@ -21,4 +21,9 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Infrastructure\Scripts\20241019_Create item table.sql" />
+      <EmbeddedResource Include="Infrastructure\Scripts\20241019_Create item table.sql" />
+    </ItemGroup>
+
 </Project>

@@ -8,6 +8,9 @@ services:
       dockerfile: ApiGateways/Web.ApiGateway/Dockerfile
     depends_on:
       - statistics-api
+      - patch-api
+      - items-api
+      - heroes-api
 
   identity-api:
     container_name: identity-api
@@ -26,6 +29,49 @@ services:
     build:
       context: .
       dockerfile: Services/Statistics/Statistics.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - identity-api
+  statistics-data-extractor:
+    container_name: statistics-data-extractor
+    build:
+      context: .
+      dockerfile: Services/Statistics/Statistics.DataExtractor/Dockerfile
+    depends_on:
+      - rabbitmq
+      - identity-api
+
+  patch-api:
+    container_name: patch-api
+    build:
+      context: .
+      dockerfile: Services/Patch/Patch.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - identity-api
+  patch-observer:
+    container_name: patch-observer
+    build:
+      context: .
+      dockerfile: Services/Patch/Patch.Observer/Dockerfile
+    depends_on:
+      - rabbitmq
+      - identity-api
+
+  items-api:
+    container_name: items-api
+    build:
+      context: .
+      dockerfile: Services/Items/Items.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - identity-api
+
+  heroes-api:
+    container_name: heroes-api
+    build:
+      context: .
+      dockerfile: Services/Heroes/Heroes.API/Dockerfile
     depends_on:
       - rabbitmq
       - identity-api

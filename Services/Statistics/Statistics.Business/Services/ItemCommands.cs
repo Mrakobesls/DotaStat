@@ -4,18 +4,18 @@ using Statistics.Business.Infrastructure.Models;
 
 namespace Statistics.Business.Services;
 
-public interface IHeroCommands
+public interface IItemCommands
 {
-    Task AddRange(IEnumerable<Types.Hero> heroes);
+    Task AddRange(IEnumerable<Types.Item> items);
 }
 
-public class HeroCommands(StatisticsDbContext dbContext) : IHeroCommands
+public class ItemCommands(StatisticsDbContext dbContext) : IItemCommands
 {
-    public async Task AddRange(IEnumerable<Types.Hero> heroes)
+    public async Task AddRange(IEnumerable<Types.Item> items)
     {
-        await dbContext.Heroes.AddRangeAsync(
-            heroes.Select(
-                x => new Hero
+        await dbContext.Items.AddRangeAsync(
+            items.Select(
+                x => new Item
                 {
                     Id = x.Id,
                     Name = x.Name
@@ -24,7 +24,7 @@ public class HeroCommands(StatisticsDbContext dbContext) : IHeroCommands
         );
 
         await using var transaction = await dbContext.Database.BeginTransactionAsync();
-        using var task = dbContext.StartIdentityInsert<Hero>();
+        using var task = dbContext.StartIdentityInsert<Item>();
 
         await dbContext.SaveChangesAsync();
         await transaction.CommitAsync();

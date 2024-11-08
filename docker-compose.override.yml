@@ -38,6 +38,64 @@ services:
       - PATH_BASE=/statistics
     ports:
       - "5020:5020"
+  statistics-data-extractor:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5020
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/statistics
+    ports:
+      - "5060:5060"
+
+  patch-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5020
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/statistics
+    ports:
+      - "5021:5021"
+  statistics-observer:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5020
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/statistics
+    ports:
+      - "5061:5061"
+
+  items-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5020
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/statistics
+    ports:
+      - "5022:5022"
+
+  heroes-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:5020
+      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/statistics
+    ports:
+      - "5023:5023"
 
 #  web:
 ##    environment:

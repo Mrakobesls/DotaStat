@@ -61,7 +61,7 @@ services:
       - PATH_BASE=/statistics
     ports:
       - "5021:5021"
-  statistics-observer:
+  patch-observer:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:5020

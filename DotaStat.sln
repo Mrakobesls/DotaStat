@@ -78,6 +78,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLogEF", "Ev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hero.Data", "Services\Heroes\Hero.Data\Hero.Data.csproj", "{4A233E22-78DE-494B-BFBD-C126C9D70B8D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "azure-pipelines", "azure-pipelines", "{F0CD6FA3-DD52-4D4C-9B61-4E3E66D12F1F}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines\azure-pipelines.yml = azure-pipelines\azure-pipelines.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +222,7 @@ Global
 		{7A02B8CE-B8FC-45C3-B89E-15636B9C22D1} = {61DFDD30-66E9-4F1E-98C5-104BAEBDD2FD}
 		{1D296212-9BED-4F7E-9660-35FEBE0F7604} = {61DFDD30-66E9-4F1E-98C5-104BAEBDD2FD}
 		{4A233E22-78DE-494B-BFBD-C126C9D70B8D} = {CB07A142-3894-4675-9ECD-8AAD62A0EF5C}
+		{F0CD6FA3-DD52-4D4C-9B61-4E3E66D12F1F} = {9CAC66F5-B4CD-414D-B8E8-1C3A763277AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D604B7BB-D8CB-487C-BC78-15DCE3D337E8}

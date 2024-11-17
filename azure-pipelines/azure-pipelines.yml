@@ -8,6 +8,7 @@ trigger:
 
 pool:
   name: 'Default'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
@@ -27,6 +28,7 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    msbuildArchitecture: 'x64'
 
 - task: VSTest@2
   inputs:

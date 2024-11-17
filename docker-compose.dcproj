@@ -5,9 +5,12 @@
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
     <DockerServiceUrl>http://host.docker.internal:5100</DockerServiceUrl>
     <DockerServiceName>dotastat</DockerServiceName>
-    <DockerTargetOS>Linux</DockerTargetOS>
+    <DockerTargetOS>Windows</DockerTargetOS>
     <ProjectVersion>2.1</ProjectVersion>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <LangVersion>12</LangVersion>
+    <Configurations>Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".dockerignore" />

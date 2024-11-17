@@ -3,101 +3,110 @@ version: "3.4"
 services:
   api-gateway:
     build:
-      context: "E:\\Projects\\DotStat\\DotaStatMicroservices"
+      context: "E:\\Projects\\DotStat"
       dockerfile: "ApiGateways/Web.ApiGateway/Dockerfile"
       target: "base"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/rider-debugger/linux-x64/dotnet/dotnet"
-    - "/opt/rider-debugger/JetBrains.Debugger.Worker.exe"
-    - "--mode=server"
-    - "--frontend-port=57100"
-    - "--backend-port=57300"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Web.ApiGateway.dll"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
-      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "web.apigateway:dev"
-    ports:
-    - "127.0.0.1:57000:57100"
-    - "127.0.0.1:57200:57300"
+    ports: []
     volumes:
     - "C:\\Users\\remi0\\.nuget\\packages:/root/.nuget/packages"
-    - "E:\\Projects\\DotStat\\DotaStatMicroservices\\ApiGateways\\Web.ApiGateway:/app:rw"
-    - "E:\\Projects\\DotStat\\DotaStatMicroservices:/src:rw"
-    - "C:\\Users\\remi0\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2023.3.2\\\
-      Linux64:/opt/rider-debugger"
-    - "E:\\DevBoy\\JetBrains Rider 2023.3.2\\bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "C:\\Users\\remi0\\AppData\\Local\\JetBrains\\Rider2023.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_2_02_00_15_34:/var/opt/rider-debugger:rw"
+    - "E:\\Projects\\DotStat\\ApiGateways\\Web.ApiGateway:/app:rw"
+    - "E:\\Projects\\DotStat:/src:rw"
+    working_dir: "/app"
+  heroes-api:
+    build:
+      context: "E:\\Projects\\DotStat"
+      dockerfile: "Services/Hero/Hero.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Hero.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "hero.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\remi0\\.nuget\\packages:/home/app/.nuget/packages"
+    - "E:\\Projects\\DotStat\\Services\\Hero\\Hero.API:/app:rw"
+    - "E:\\Projects\\DotStat:/src:rw"
     working_dir: "/app"
   identity-api:
     build:
-      context: "E:\\Projects\\DotStat\\DotaStatMicroservices"
+      context: "E:\\Projects\\DotStat"
       dockerfile: "Services/Identity/Identity.API/Dockerfile"
       target: "base"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/rider-debugger/linux-x64/dotnet/dotnet"
-    - "/opt/rider-debugger/JetBrains.Debugger.Worker.exe"
-    - "--mode=server"
-    - "--frontend-port=57100"
-    - "--backend-port=57300"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Identity.API.dll"
     environment:
       ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/Identity.API.staticwebassets.runtime.CT.json"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
-      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "identity.api:dev"
-    ports:
-    - "127.0.0.1:57001:57100"
-    - "127.0.0.1:57201:57300"
+    ports: []
     volumes:
     - "C:\\Users\\remi0\\.nuget\\packages:/root/.nuget/packages"
-    - "E:\\Projects\\DotStat\\DotaStatMicroservices\\Services\\Identity\\Identity.API:/app:rw"
-    - "E:\\Projects\\DotStat\\DotaStatMicroservices:/src:rw"
-    - "C:\\Users\\remi0\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2023.3.2\\\
-      Linux64:/opt/rider-debugger"
-    - "E:\\DevBoy\\JetBrains Rider 2023.3.2\\bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "C:\\Users\\remi0\\AppData\\Local\\JetBrains\\Rider2023.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_2_02_00_15_34:/var/opt/rider-debugger:rw"
+    - "E:\\Projects\\DotStat\\Services\\Identity\\Identity.API:/app:rw"
+    - "E:\\Projects\\DotStat:/src:rw"
+    working_dir: "/app"
+  items-api:
+    build:
+      context: "E:\\Projects\\DotStat"
+      dockerfile: "Services/Item/Item.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Item.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "item.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\remi0\\.nuget\\packages:/home/app/.nuget/packages"
+    - "E:\\Projects\\DotStat\\Services\\Item\\Item.API:/app:rw"
+    - "E:\\Projects\\DotStat:/src:rw"
+    working_dir: "/app"
+  patch-api:
+    build:
+      context: "E:\\Projects\\DotStat"
+      dockerfile: "Services/Patch/Patch.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Patch.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "patch.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\remi0\\.nuget\\packages:/home/app/.nuget/packages"
+    - "E:\\Projects\\DotStat\\Services\\Patch\\Patch.API:/app:rw"
+    - "E:\\Projects\\DotStat:/src:rw"
     working_dir: "/app"
   statistics-api:
     build:
-      context: "E:\\Projects\\DotStat\\DotaStatMicroservices"
+      context: "E:\\Projects\\DotStat"
       dockerfile: "Services/Statistics/Statistics.API/Dockerfile"
       target: "base"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/rider-debugger/linux-x64/dotnet/dotnet"
-    - "/opt/rider-debugger/JetBrains.Debugger.Worker.exe"
-    - "--mode=server"
-    - "--frontend-port=57100"
-    - "--backend-port=57300"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Statistics.API.dll"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
-      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "statistics.api:dev"
-    ports:
-    - "127.0.0.1:57002:57100"
-    - "127.0.0.1:57202:57300"
+    ports: []
     volumes:
     - "C:\\Users\\remi0\\.nuget\\packages:/root/.nuget/packages"
-    - "E:\\Projects\\DotStat\\DotaStatMicroservices\\Services\\Statistics\\Statistics.API:/app:rw"
-    - "E:\\Projects\\DotStat\\DotaStatMicroservices:/src:rw"
-    - "C:\\Users\\remi0\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2023.3.2\\\
-      Linux64:/opt/rider-debugger"
-    - "E:\\DevBoy\\JetBrains Rider 2023.3.2\\bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "C:\\Users\\remi0\\AppData\\Local\\JetBrains\\Rider2023.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_2_02_00_15_34:/var/opt/rider-debugger:rw"
+    - "E:\\Projects\\DotStat\\Services\\Statistics\\Statistics.API:/app:rw"
+    - "E:\\Projects\\DotStat:/src:rw"
     working_dir: "/app"

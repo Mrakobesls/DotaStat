@@ -6,6 +6,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:5050
       - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5050
+      - PATH_BASE=/api-gateway
     ports:
       - "5050:5050"
 
@@ -17,8 +18,8 @@ services:
       - WebClient=http://${EXTERNAL_DNS_NAME_OR_IP}:5035
       - ApiGatewayClient=http://${EXTERNAL_DNS_NAME_OR_IP}:5050
       - UseCustomizationData=True
-      - ApplicationInsights__InstrumentationKey=${INSTRUMENTATION_KEY}
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+#      - ApplicationInsights__InstrumentationKey=${INSTRUMENTATION_KEY}
+#      - OrchestratorType=${ORCHESTRATOR_TYPE}
     ports:
       - "5041:5041"
 
@@ -34,21 +35,21 @@ services:
       - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
       - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
       - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+#      - OrchestratorType=${ORCHESTRATOR_TYPE}
       - PATH_BASE=/statistics
     ports:
       - "5020:5020"
-  statistics-data-extractor:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:5020
-      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
-      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
-      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
-      - PATH_BASE=/statistics
-    ports:
-      - "5060:5060"
+#  statistics-data-extractor:
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - ASPNETCORE_URLS=http://0.0.0.0:5020
+#      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+#      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+#      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+##      - OrchestratorType=${ORCHESTRATOR_TYPE}
+#      - PATH_BASE=/statistics
+#    ports:
+#      - "5050:5050"
 
   patch-api:
     environment:
@@ -57,21 +58,21 @@ services:
       - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
       - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
       - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
-      - PATH_BASE=/statistics
+#      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/patch
     ports:
       - "5021:5021"
-  patch-observer:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:5020
-      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
-      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
-      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
-      - PATH_BASE=/statistics
-    ports:
-      - "5061:5061"
+#  patch-observer:
+#    environment:
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - ASPNETCORE_URLS=http://0.0.0.0:5020
+#      - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
+#      - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
+#      - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
+##      - OrchestratorType=${ORCHESTRATOR_TYPE}
+#      - PATH_BASE=/patch-observer
+#    ports:
+#      - "5061:5061"
 
   items-api:
     environment:
@@ -80,8 +81,8 @@ services:
       - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
       - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
       - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
-      - PATH_BASE=/statistics
+#      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/items
     ports:
       - "5022:5022"
 
@@ -92,8 +93,8 @@ services:
       - Kestrel__Endpoints__HTTP__Url=http://0.0.0.0:5020
       - Identity__Url=http://${EXTERNAL_DNS_NAME_OR_IP}
       - Identity__ExternalUrl=http://${EXTERNAL_DNS_NAME_OR_IP}:5105
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
-      - PATH_BASE=/statistics
+#      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PATH_BASE=/heroes
     ports:
       - "5023:5023"
 

@@ -24,7 +24,7 @@ app.UseRouting()
         }
     );
 
-app.Services.GetRequiredService<DatabaseInitializer>()
-    .Initialize();
+// app.Services.GetRequiredService<DatabaseInitializer>()
+//     .Initialize();
 
 app.Run();

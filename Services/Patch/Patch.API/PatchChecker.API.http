@@ -1,6 +1,6 @@
 @PatchChecker.API_HostAddress = http://patch-api:5021
 
-POST {{PatchChecker.API_HostAddress}}/ping
+GET {{PatchChecker.API_HostAddress}}/ping
 Accept: application/json
 
 ###

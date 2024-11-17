@@ -1,4 +1,9 @@
-﻿namespace Items.Data.IOC;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using ServiceDefaults;
+
+namespace Items.Data.IOC;
 
 public static class HeroesDataRegistration
 {

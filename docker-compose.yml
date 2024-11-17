@@ -32,14 +32,14 @@ services:
     depends_on:
       - rabbitmq
       - identity-api
-  statistics-data-extractor:
-    container_name: statistics-data-extractor
-    build:
-      context: .
-      dockerfile: Services/Statistics/Statistics.DataExtractor/Dockerfile
-    depends_on:
-      - rabbitmq
-      - identity-api
+#  statistics-data-extractor:
+#    container_name: statistics-data-extractor
+#    build:
+#      context: .
+#      dockerfile: Services/Statistics/Statistics.DataExtractor/Dockerfile
+#    depends_on:
+#      - rabbitmq
+#      - identity-api
 
   patch-api:
     container_name: patch-api
@@ -49,20 +49,20 @@ services:
     depends_on:
       - rabbitmq
       - identity-api
-  patch-observer:
-    container_name: patch-observer
-    build:
-      context: .
-      dockerfile: Services/Patch/Patch.Observer/Dockerfile
-    depends_on:
-      - rabbitmq
-      - identity-api
+#  patch-observer:
+#    container_name: patch-observer
+#    build:
+#      context: .
+#      dockerfile: Services/Patch/Patch.Observer/Dockerfile
+#    depends_on:
+#      - rabbitmq
+#      - identity-api
 
   items-api:
     container_name: items-api
     build:
       context: .
-      dockerfile: Services/Items/Items.API/Dockerfile
+      dockerfile: Services/Item/Item.API/Dockerfile
     depends_on:
       - rabbitmq
       - identity-api
@@ -71,7 +71,7 @@ services:
     container_name: heroes-api
     build:
       context: .
-      dockerfile: Services/Heroes/Heroes.API/Dockerfile
+      dockerfile: Services/Hero/Hero.API/Dockerfile
     depends_on:
       - rabbitmq
       - identity-api
